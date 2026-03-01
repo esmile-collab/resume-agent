@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Optional
 
-from src.models.routing import RouteDecision, ScoreCard
-from src.routes.intent import Intent, TaskState
+from models.routing import RouteDecision, ScoreCard
+from routes.intent import Intent, TaskState
 
 
 def handle_generate(task_state: TaskState, score_card: Optional[ScoreCard]) -> RouteDecision:

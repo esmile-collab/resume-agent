@@ -1,2 +1,17 @@
-# src/tools/__init__.py
-"""工具模块"""
+"""Tool package exports."""
+
+from tools.stub import (
+    AllocationDecision,
+    AllocationPlan,
+    AllocatorStub,
+    ParserStub,
+    ScorerStub,
+)
+
+__all__ = [
+    "ParserStub",
+    "ScorerStub",
+    "AllocatorStub",
+    "AllocationDecision",
+    "AllocationPlan",
+]
