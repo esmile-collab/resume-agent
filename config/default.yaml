@@ -1,0 +1,16 @@
+# Resume Agent 默认配置
+
+# 数据库配置
+database:
+  path: .data/resume_agent.db
+
+# 日志配置
+logging:
+  level: INFO
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  file: .data/logs/resume_agent.log
+
+# CLI 配置
+cli:
+  prompt: 'resume_agent> '
+  editor: vim
