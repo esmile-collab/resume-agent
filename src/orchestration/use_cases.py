@@ -1,4 +1,4 @@
-"""M4 orchestration use-case layer (project-level and card-level flows)."""
+"""M4-M7 orchestration use-case layer (flow + observability + dialog compression)."""
 
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ from typing import Any, Iterable, Protocol, cast
 
 from db.crud import ProjectCRUD, ProjectJDEntryCRUD, generate_short_id
 from models import ScoreCard
+from observability import DialogCompressionManager, ObservabilityLogger
 from orchestration.models import AllocationPreviewResult, TaskCardRecord
 from routes.intent import Intent, TaskState
 from routes.router import TaskRouter
@@ -23,7 +24,7 @@ class ScorerProtocol(Protocol):
 
 
 class ResumeOrchestratorUseCase:
-    """End-to-end orchestration service for M4."""
+    """End-to-end orchestration service for M4-M7."""
 
     def __init__(
         self,
@@ -31,12 +32,16 @@ class ResumeOrchestratorUseCase:
         parser: ParserStub | None = None,
         scorer: ScorerProtocol | None = None,
         router: TaskRouter | None = None,
+        telemetry: ObservabilityLogger | None = None,
+        dialog_manager: DialogCompressionManager | None = None,
     ) -> None:
         self.project_crud = ProjectCRUD()
         self.jd_crud = ProjectJDEntryCRUD()
         self.parser = parser or ParserStub()
         self.scorer = scorer or ScorerStub()
         self.router = router or TaskRouter()
+        self.telemetry = telemetry or ObservabilityLogger()
+        self.dialog_manager = dialog_manager or DialogCompressionManager()
 
     def init_project(
         self, name: str, cycle: str = "", base_resume_text: str = ""
@@ -48,12 +53,21 @@ class ResumeOrchestratorUseCase:
         base_resume_path = self._project_root(project.id) / "resume" / "base_resume_v1.txt"
         base_resume_path.write_text(base_resume_text, encoding="utf-8")
 
-        return {
+        result = {
             "project_id": project.id,
             "name": project.name,
             "cycle": project.cycle or "",
             "base_resume_path": str(base_resume_path),
         }
+        self._log_telemetry(
+            project_id=project.id,
+            intent=Intent.INGEST_JD.value,
+            state=TaskState.PENDING.value,
+            match_level="",
+            risk_ack=False,
+            metadata={"event": "project_initialized"},
+        )
+        return result
 
     def ingest_jds(
         self,
@@ -131,6 +145,18 @@ class ResumeOrchestratorUseCase:
             json.dumps(plan_payload, ensure_ascii=False, indent=2), encoding="utf-8"
         )
 
+        self._log_telemetry(
+            project_id=project_id,
+            intent=Intent.INGEST_JD.value,
+            state=TaskState.PENDING.value,
+            match_level="",
+            risk_ack=False,
+            metadata={
+                "jd_count": preview.jd_count,
+                "direction_count": preview.direction_count,
+                "plan_id": preview.plan_id,
+            },
+        )
         return {
             "plan_id": preview.plan_id,
             "need_user_confirm": True,
@@ -163,6 +189,18 @@ class ResumeOrchestratorUseCase:
             by_direction[direction_id] = new_card
 
         self._save_task_cards(project_id, cards)
+        self._log_telemetry(
+            project_id=project_id,
+            intent=Intent.INGEST_JD.value,
+            state=TaskState.PENDING.value,
+            match_level="",
+            risk_ack=False,
+            metadata={
+                "event": "allocation_confirmed",
+                "plan_id": plan_id,
+                "direction_count": len(cards),
+            },
+        )
         return {
             "project_id": project_id,
             "plan_id": plan_id,
@@ -187,6 +225,15 @@ class ResumeOrchestratorUseCase:
             card.score = score_card.score
             card.match_level = score_card.match_level
             card.status = TaskState.SCORED.value
+            self._log_telemetry(
+                project_id=project_id,
+                task_card_id=card.task_card_id,
+                intent=Intent.GENERATE.value,
+                state=card.status,
+                match_level=card.match_level or "",
+                risk_ack=False,
+                metadata={"event": "score_updated", "score": card.score},
+            )
 
         self._save_task_cards(project_id, cards)
         return {
@@ -221,6 +268,15 @@ class ResumeOrchestratorUseCase:
             task_state=TaskState.SCORED,
             score_card=score_card,
         )
+        self._log_telemetry(
+            project_id=project_id,
+            task_card_id=task_card_id,
+            intent=Intent.GENERATE.value,
+            state=decision.state.value,
+            match_level=score_card.match_level,
+            risk_ack=risk_ack,
+            metadata={"event": "route_decision", "await_risk_ack": decision.await_risk_ack},
+        )
 
         if decision.await_risk_ack and not risk_ack:
             self._save_task_cards(project_id, cards)
@@ -234,6 +290,15 @@ class ResumeOrchestratorUseCase:
 
         if decision.await_risk_ack and risk_ack:
             decision = self.router.handle_risk_ack(confirmed=True, score_card=score_card)
+            self._log_telemetry(
+                project_id=project_id,
+                task_card_id=task_card_id,
+                intent=Intent.GENERATE.value,
+                state=decision.state.value,
+                match_level=score_card.match_level,
+                risk_ack=True,
+                metadata={"event": "risk_ack_confirmed"},
+            )
 
         if decision.state != TaskState.GENERATING:
             self._save_task_cards(project_id, cards)
@@ -268,6 +333,15 @@ class ResumeOrchestratorUseCase:
                 "output_path": str(output_path),
             },
         )
+        self._log_telemetry(
+            project_id=project_id,
+            task_card_id=task_card_id,
+            intent=Intent.GENERATE.value,
+            state=card.status,
+            match_level=card.match_level or "",
+            risk_ack=risk_ack,
+            metadata={"event": "card_generated", "mode": mode, "version": next_version},
+        )
 
         return {
             "project_id": project_id,
@@ -281,6 +355,55 @@ class ResumeOrchestratorUseCase:
     def list_task_cards(self, project_id: str) -> list[dict[str, Any]]:
         """List persisted task cards for one project."""
         return [asdict(card) for card in self._load_task_cards(project_id)]
+
+    def append_dialog_turn(
+        self,
+        *,
+        project_id: str,
+        role: str,
+        content: str,
+        facts: list[str] | None = None,
+        artifact_version_id: str = "",
+    ) -> dict[str, Any]:
+        """Append one dialog turn and trigger compression when threshold is exceeded."""
+        if self.project_crud.get(project_id) is None:
+            raise ValueError(f"Project not found: {project_id}")
+        if not content.strip():
+            raise ValueError("Dialog content cannot be empty.")
+
+        self._ensure_artifact_dirs(project_id)
+        result = self.dialog_manager.append_turn(
+            project_root=self._project_root(project_id),
+            role=role,
+            content=content,
+            facts=facts,
+            artifact_version_id=artifact_version_id,
+        )
+        self._log_telemetry(
+            project_id=project_id,
+            intent=Intent.ADD_INFO.value,
+            state=TaskState.PENDING.value,
+            match_level="",
+            risk_ack=False,
+            metadata={
+                "event": "dialog_turn_appended",
+                "compressed": result.get("compressed", False),
+                "summary_version": result.get("summary_version", 0),
+            },
+        )
+        return result
+
+    def read_telemetry_events(self, project_id: str) -> list[dict[str, Any]]:
+        """Read persisted M7 telemetry events for one project."""
+        return self.telemetry.read_events(project_root=self._project_root(project_id))
+
+    def read_dialog_messages(self, project_id: str) -> list[dict[str, Any]]:
+        """Read recent dialog turns after compression."""
+        return self.dialog_manager.read_messages(project_root=self._project_root(project_id))
+
+    def read_dialog_summary(self, project_id: str) -> dict[str, Any]:
+        """Read dialog summary versions."""
+        return self.dialog_manager.read_summary(project_root=self._project_root(project_id))
 
     def _render_output(self, *, card: TaskCardRecord, mode: str, version: int) -> str:
         """Render one markdown output artifact with evidence bindings."""
@@ -340,6 +463,29 @@ class ResumeOrchestratorUseCase:
         log_file = self._project_root(project_id) / "runs" / "runs.jsonl"
         with log_file.open("a", encoding="utf-8") as fp:
             fp.write(json.dumps(payload, ensure_ascii=False) + "\n")
+
+    def _log_telemetry(
+        self,
+        *,
+        project_id: str,
+        intent: str,
+        state: str,
+        match_level: str,
+        risk_ack: bool,
+        task_card_id: str = "",
+        metadata: dict[str, Any] | None = None,
+    ) -> None:
+        self._ensure_artifact_dirs(project_id)
+        self.telemetry.log_event(
+            project_root=self._project_root(project_id),
+            project_id=project_id,
+            task_card_id=task_card_id,
+            intent=intent,
+            state=state,
+            match_level=match_level,
+            risk_ack=risk_ack,
+            metadata=metadata,
+        )
 
     def _load_base_resume(self, project_id: str) -> str:
         resume_file = self._project_root(project_id) / "resume" / "base_resume_v1.txt"

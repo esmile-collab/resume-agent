@@ -30,9 +30,11 @@ elif [ "$MODULE" = "acceptance" ]; then
         --html="$REPORT_DIR/report.html" \
         --cov=src \
         --cov-report=term-missing
-elif [[ "$MODULE" =~ ^m[0-9]+$ ]]; then
-    echo "运行 M$MODULE 验收测试..."
-    pytest "tests/acceptance/test_m${MODULE}.py" -v \
+elif [[ "$MODULE" =~ ^m[0-9]+([_.][0-9]+)?$ ]]; then
+    MODULE_NAME="${MODULE#m}"
+    TARGET_FILE="tests/acceptance/test_m${MODULE_NAME}.py"
+    echo "运行 $MODULE 验收测试..."
+    pytest "$TARGET_FILE" -v \
         --html="$REPORT_DIR/report.html" \
         --cov=src \
         --cov-report=term-missing
