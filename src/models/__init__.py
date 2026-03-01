@@ -1,2 +1,5 @@
-# src/models/__init__.py
-"""业务模型层"""
+"""Business models shared across modules."""
+
+from .routing import RouteDecision, ScoreCard
+
+__all__ = ["ScoreCard", "RouteDecision"]

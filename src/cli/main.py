@@ -8,8 +8,8 @@ from typing import Any, NoReturn
 
 import click
 
-from src.db.crud import ProjectCRUD
-from src.db.models import Project
+from db.crud import ProjectCRUD
+from db.models import Project
 
 
 def _format_datetime(value: datetime | None) -> str:
