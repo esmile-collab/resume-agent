@@ -12,7 +12,9 @@ import click
 
 from db.crud import ProjectCRUD
 from db.models import Project
-from orchestration import ResumeOrchestratorUseCase
+from orchestration import ResumeOrchestratorUseCase, ResumePolisherUseCase
+from scoring import CampusScorerV21
+from scoring.models import ScoreReport
 
 
 def _format_datetime(value: datetime | None) -> str:
@@ -242,6 +244,327 @@ def project_confirm_allocation(project_id: str, plan_id: str, output_format: str
     click.echo("Task Cards:")
     for card in result["task_cards"]:
         click.echo(f"  - {card['task_card_id']}: {card['direction_name']}")
+
+
+@cli.group()
+def resume() -> None:
+    """简历级命令（M8 Resume Polisher MVP）。"""
+
+
+@resume.command("init")
+@click.option("--name", required=True, help="简历名称")
+@click.option("--file", "resume_path", required=True, type=click.Path(path_type=Path, exists=True, dir_okay=False, readable=True), help="简历文本文件")
+@click.option("--user-id", default="local_user", help="用户 ID")
+@click.option("--format", "output_format", type=click.Choice(["json", "table"]), default="table")
+def resume_init(name: str, resume_path: Path, user_id: str, output_format: str) -> None:
+    """Create resume root and version1 from uploaded text."""
+    use_case = ResumePolisherUseCase()
+    result = use_case.create_resume(user_id=user_id, name=name, resume_text=_read_text_file(resume_path))
+
+    if output_format == "json":
+        click.echo(json.dumps(result, ensure_ascii=False, indent=2))
+        return
+
+    click.echo(f"✓ 简历已创建: {result['resume']['id']}")
+    click.echo(f"当前版本: {result['active_version']['id']}")
+
+
+@resume.command("list")
+@click.option("--user-id", default="local_user", help="用户 ID")
+@click.option("--format", "output_format", type=click.Choice(["json", "table"]), default="table")
+def resume_list(user_id: str, output_format: str) -> None:
+    """List resumes by user."""
+    use_case = ResumePolisherUseCase()
+    resumes = use_case.list_resumes(user_id=user_id)
+
+    if output_format == "json":
+        click.echo(json.dumps(resumes, ensure_ascii=False, indent=2))
+        return
+
+    if not resumes:
+        click.echo("未找到简历")
+        return
+    click.echo("ID               名称")
+    click.echo("---------------- --------")
+    for item in resumes:
+        click.echo(f"{item['id']:<16} {item['name']}")
+
+
+@resume.command("get")
+@click.option("--id", "resume_id", required=True, help="简历 ID")
+@click.option("--format", "output_format", type=click.Choice(["json", "table"]), default="table")
+def resume_get(resume_id: str, output_format: str) -> None:
+    """Get resume detail with version history."""
+    use_case = ResumePolisherUseCase()
+    try:
+        result = use_case.get_resume(resume_id=resume_id)
+    except ValueError as exc:
+        click.echo(f"✗ {exc}")
+        raise click.exceptions.Exit(1)
+
+    if output_format == "json":
+        click.echo(json.dumps(result, ensure_ascii=False, indent=2))
+        return
+
+    click.echo(f"ID: {result['resume']['id']}")
+    click.echo(f"名称: {result['resume']['name']}")
+    click.echo(f"当前版本: {result['resume']['active_version_id']}")
+    click.echo(f"版本数: {len(result['versions'])}")
+
+
+@cli.group()
+def task() -> None:
+    """JD 任务卡命令（M8 Resume Polisher MVP）。"""
+
+
+@task.command("create")
+@click.option("--resume-id", required=True, help="简历 ID")
+@click.option("--title", required=True, help="任务标题")
+@click.option("--jd", "jd_path", required=True, type=click.Path(path_type=Path, exists=True, dir_okay=False, readable=True), help="JD 文件")
+@click.option("--format", "output_format", type=click.Choice(["json", "table"]), default="table")
+def task_create(resume_id: str, title: str, jd_path: Path, output_format: str) -> None:
+    """Create one JD task for a resume."""
+    use_case = ResumePolisherUseCase()
+    try:
+        result = use_case.create_task(resume_id=resume_id, title=title, jd_text=_read_text_file(jd_path))
+    except ValueError as exc:
+        click.echo(f"✗ {exc}")
+        raise click.exceptions.Exit(1)
+
+    if output_format == "json":
+        click.echo(json.dumps(result, ensure_ascii=False, indent=2))
+        return
+
+    click.echo(f"✓ 任务已创建: {result['task']['id']}")
+
+
+@task.command("list")
+@click.option("--resume-id", required=True, help="简历 ID")
+@click.option("--format", "output_format", type=click.Choice(["json", "table"]), default="table")
+def task_list(resume_id: str, output_format: str) -> None:
+    """List tasks under one resume."""
+    use_case = ResumePolisherUseCase()
+    tasks = use_case.list_tasks(resume_id=resume_id)
+
+    if output_format == "json":
+        click.echo(json.dumps(tasks, ensure_ascii=False, indent=2))
+        return
+
+    if not tasks:
+        click.echo("未找到任务卡")
+        return
+    click.echo("ID                 标题                状态")
+    click.echo("------------------ ------------------- ------------")
+    for item in tasks:
+        click.echo(f"{item['id']:<18} {item['title'][:19]:<19} {item['status']}")
+
+
+@task.command("analyze")
+@click.option("--task-id", required=True, help="任务 ID")
+@click.option("--format", "output_format", type=click.Choice(["json", "table"]), default="table")
+def task_analyze(task_id: str, output_format: str) -> None:
+    """Run non-scoring analysis for a task."""
+    use_case = ResumePolisherUseCase()
+    try:
+        result = use_case.analyze_task(task_id=task_id)
+    except ValueError as exc:
+        click.echo(f"✗ {exc}")
+        raise click.exceptions.Exit(1)
+
+    if output_format == "json":
+        click.echo(json.dumps(result, ensure_ascii=False, indent=2))
+        return
+
+    insight = result["insight"]
+    click.echo(f"✓ 分析完成: {task_id}")
+    click.echo(f"优势: {len(insight['strengths'])} 条")
+    click.echo(f"不足: {len(insight['gaps'])} 条")
+    click.echo(f"建议: {len(insight['actions'])} 条")
+
+
+@task.command("polish")
+@click.option("--task-id", required=True, help="任务 ID")
+@click.option("--format", "output_format", type=click.Choice(["json", "table"]), default="table")
+def task_polish(task_id: str, output_format: str) -> None:
+    """Generate block-level polish patches."""
+    use_case = ResumePolisherUseCase()
+    try:
+        result = use_case.polish_task(task_id=task_id)
+    except ValueError as exc:
+        click.echo(f"✗ {exc}")
+        raise click.exceptions.Exit(1)
+
+    if output_format == "json":
+        click.echo(json.dumps(result, ensure_ascii=False, indent=2))
+        return
+
+    click.echo(f"✓ Patch 生成完成: {task_id}")
+    click.echo(f"Patch 数量: {len(result['patches'])}")
+
+
+@task.command("apply-patch")
+@click.option("--task-id", required=True, help="任务 ID")
+@click.option("--patch-id", "patch_ids", multiple=True, required=True, help="Patch ID，可重复")
+@click.option("--format", "output_format", type=click.Choice(["json", "table"]), default="table")
+def task_apply_patch(task_id: str, patch_ids: tuple[str, ...], output_format: str) -> None:
+    """Apply selected patches and create new version."""
+    use_case = ResumePolisherUseCase()
+    try:
+        result = use_case.apply_patches(task_id=task_id, patch_ids=list(patch_ids))
+    except ValueError as exc:
+        click.echo(f"✗ {exc}")
+        raise click.exceptions.Exit(1)
+
+    if output_format == "json":
+        click.echo(json.dumps(result, ensure_ascii=False, indent=2))
+        return
+
+    click.echo(f"✓ 已应用 {result['applied_count']} 个 patch")
+    click.echo(f"新版本: {result['new_version']['id']}")
+
+
+@task.command("rollback")
+@click.option("--task-id", required=True, help="任务 ID")
+@click.option("--version-id", required=True, help="目标版本 ID")
+@click.option("--format", "output_format", type=click.Choice(["json", "table"]), default="table")
+def task_rollback(task_id: str, version_id: str, output_format: str) -> None:
+    """Rollback task resume pointer to one existing version."""
+    use_case = ResumePolisherUseCase()
+    try:
+        result = use_case.rollback_task(task_id=task_id, target_version_id=version_id)
+    except ValueError as exc:
+        click.echo(f"✗ {exc}")
+        raise click.exceptions.Exit(1)
+
+    if output_format == "json":
+        click.echo(json.dumps(result, ensure_ascii=False, indent=2))
+        return
+
+    click.echo(f"✓ 已回滚到版本: {result['active_version_id']}")
+
+
+@task.command("export")
+@click.option("--task-id", required=True, help="任务 ID")
+@click.option("--output", "output_path", required=True, type=click.Path(path_type=Path, dir_okay=False, writable=True), help="导出路径")
+@click.option("--format", "output_format", type=click.Choice(["json", "table"]), default="table")
+def task_export(task_id: str, output_path: Path, output_format: str) -> None:
+    """Export current task resume to markdown."""
+    use_case = ResumePolisherUseCase()
+    try:
+        result = use_case.export_task(task_id=task_id, output_path=str(output_path))
+    except ValueError as exc:
+        click.echo(f"✗ {exc}")
+        raise click.exceptions.Exit(1)
+
+    if output_format == "json":
+        click.echo(json.dumps(result, ensure_ascii=False, indent=2))
+        return
+
+    click.echo(f"✓ 已导出: {result['output_path']}")
+
+
+@cli.group()
+def score() -> None:
+    """校招评分命令（混合评分系统 v2.1）。"""
+
+
+@score.command("evaluate")
+@click.option("--jd", "jd_path", required=True, type=click.Path(path_type=Path, exists=True, dir_okay=False, readable=True), help="JD 文件路径")
+@click.option("--resume", "resume_path", required=True, type=click.Path(path_type=Path, exists=True, dir_okay=False, readable=True), help="简历文件路径")
+@click.option("--output", "output_path", type=click.Path(path_type=Path, dir_okay=False, writable=True), help="输出报告路径（可选，默认打印到终端）")
+@click.option("--format", "output_format", type=click.Choice(["json", "markdown", "table"]), default="markdown", help="输出格式")
+@click.option("--rule-weight", default=0.4, type=float, help="规则评分权重（0.35-0.5，默认 0.4）")
+@click.option("--model", default=None, help="LLM 模型（默认 claude-3.5-sonnet）")
+def score_evaluate(jd_path: Path, resume_path: Path, output_path: Path | None, output_format: str, rule_weight: float, model: str | None) -> None:
+    """评估简历与 JD 的匹配度（校招版 v2.1）。
+
+    使用混合评分系统：
+    - 硬性指标（规则评分）：实习、项目、技术实践、学历等
+    - 软性指标（LLM 评分）：学习能力、执行能力、沟通表达等
+
+    示例：
+        resume_agent score evaluate --jd jd.txt --resume resume.txt
+        resume_agent score evaluate --jd jd.txt --resume resume.txt --output report.md
+        resume_agent score evaluate --jd jd.txt --resume resume.txt --format json
+    """
+    scorer = CampusScorerV21(model=model)
+    jd_text = _read_text_file(jd_path)
+    resume_text = _read_text_file(resume_path)
+
+    click.echo("正在评估...")
+    report = scorer.score(jd=jd_text, resume=resume_text, rule_weight=rule_weight)
+
+    if output_format == "json":
+        output = json.dumps(report.to_dict(), ensure_ascii=False, indent=2)
+    elif output_format == "markdown":
+        output = report.to_markdown()
+    else:  # table
+        output = _format_score_table(report)
+
+    if output_path:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(output, encoding="utf-8")
+        click.echo(f"✓ 评估完成，报告已保存到: {output_path}")
+    else:
+        click.echo("\n" + output)
+
+
+def _format_score_table(report: ScoreReport) -> str:
+    """Format score report as simple table."""
+    lines = [
+        "## 简历评分报告",
+        "",
+        f"总分: {report.final_score:.1f}/100  |  评级: {report.match_level}  |  建议: {report.suggestion}",
+        "",
+    ]
+
+    if report.risk_warning:
+        lines.append(f"⚠️  {report.risk_warning}")
+        lines.append("")
+
+    if report.hard_metrics:
+        lines.extend([
+            "## 硬性指标",
+            f"总分: {report.hard_metrics.total_score:.1f}/100",
+            "",
+            "实习: {:.0f}/100  |  项目: {:.0f}/100  |  技术实践: {:.0f}/100".format(
+                report.hard_metrics.internship_score,
+                report.hard_metrics.project_score,
+                report.hard_metrics.technical_practice_score,
+            ),
+            "学历: {:.0f}/100  |  专业: {:.0f}/100  |  GPA: {:.0f}/100".format(
+                report.hard_metrics.education_score,
+                report.hard_metrics.major_score,
+                report.hard_metrics.gpa_score,
+            ),
+            "",
+        ])
+
+    if report.soft_metrics:
+        lines.extend([
+            "## 软性能力",
+            f"总分: {report.soft_metrics.total_score:.1f}/100",
+            "",
+            "学习: {:.0f}/100  |  执行: {:.0f}/100  |  沟通: {:.0f}/100".format(
+                report.soft_metrics.learning_ability,
+                report.soft_metrics.execution,
+                report.soft_metrics.communication,
+            ),
+            "数据: {:.0f}/100  |  稳定: {:.0f}/100  |  适配: {:.0f}/100".format(
+                report.soft_metrics.data_awareness,
+                report.soft_metrics.stability,
+                report.soft_metrics.adaptability,
+            ),
+            "",
+        ])
+
+    if report.quick_improvements:
+        lines.extend(["## 立即改进", ""] + [f"{i}. {item}" for i, item in enumerate(report.quick_improvements, 1)] + [""])
+
+    if report.long_term_improvements:
+        lines.extend(["## 长期提升", ""] + [f"{i}. {item}" for i, item in enumerate(report.long_term_improvements, 1)] + [""])
+
+    return "\n".join(lines)
 
 
 @cli.group()

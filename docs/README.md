@@ -15,6 +15,7 @@ docs/
 │   ├── MVP_PRD_Diagrams.md              # 产品图示
 │   ├── UI交互设计.md                     # UI/UX 设计
 │   ├── 评分系统设计_v1.md                # 评分系统设计
+│   ├── MVP_最小闭环架构方案_v1.md         # 仅润色器最小闭环（ATS适配预留）
 │   └── 手工：简历 agent需求 1.0 .md      # 原始需求
 │
 ├── technical/                   # 技术相关文档
@@ -29,11 +30,13 @@ docs/
 │
 ├── 开发流程规范.md               # 开发流程、汇报格式、质量标准
 ├── 项目运行说明.md               # 本地运行说明（CLI/API/测试/排障）
+├── 部署说明.md                  # Resume Polisher MVP 部署说明
 ├── 模块验收标准.md               # 每个模块的详细验收标准
 ├── 测试与回滚机制.md             # 测试流程、回滚机制、问题定位
 ├── 开发快速开始.md               # 开发 Agent 快速上手指南
 ├── 验收检查清单模板.md           # 测试 Agent 验收清单模板
-└── M1开发任务书.md               # M1 模块开发任务书
+├── M1开发任务书.md               # M1 模块开发任务书
+└── M8_M9_开发计划.md             # Resume Polisher MVP 开发计划
 ```
 
 ---
@@ -45,7 +48,11 @@ docs/
 | [MVP_PRD_Resume_Fit_Agent.md](./product/MVP_PRD_Resume_Fit_Agent.md) | 产品需求文档 - 核心功能、用户流程、验收标准 |
 | [MVP_PRD_Diagrams.md](./product/MVP_PRD_Diagrams.md) | 产品图示 - 流程图、状态图 |
 | [UI交互设计.md](./product/UI交互设计.md) | UI/UX 设计 - 对话优先的交互设计 |
-| [评分系统设计_v1.md](./product/评分系统设计_v1.md) | S100 评分系统设计 |
+| [评分系统设计_v1.md](./product/评分系统设计_v1.md) | S100 评分系统设计（v1 原版） |
+| [评分系统设计_v2_混合评分.md](./product/评分系统设计_v2_混合评分.md) | 混合评分方案（社招版：规则匹配 + LLM 灵活评分） |
+| [评分系统设计_v2_混合评分_校招版.md](./product/评分系统设计_v2_混合评分_校招版.md) | 混合评分方案（校招 v2.0：聚焦潜力与学习能力） |
+| [评分系统设计_v2_混合评分_校招版_v2.1.md](./product/评分系统设计_v2_混合评分_校招版_v2.1.md) | 混合评分方案（校招 v2.1：实习优先+岗位区分+具体标准） |
+| [MVP_最小闭环架构方案_v1.md](./product/MVP_最小闭环架构方案_v1.md) | MVP 定稿 - 无内置评分器，聚焦润色闭环与 ATS 适配预留 |
 | [手工：简历 agent需求 1.0 .md](./product/手工：简历 agent需求 1.0 .md) | 原始需求文档 |
 
 ---
@@ -139,19 +146,26 @@ docs/
 ### 当前阶段
 
 ```
-Stage 1: 数据层 + 最小 CLI
-├── M0: 工程脚手架
-├── M1: SQLite 持久化
-└── M1.5: 最小 CLI
+Stage 2: Resume Polisher MVP
+├── M8: Patch 润色器实现
+└── M9: 集成测试与部署
 ```
 
 ### 模块状态
 
 | 模块 | 状态 | 负责人 | 预计完成时间 |
 |---|---|---|---|
-| M0 | todo | 待分配 | |
-| M1 | todo | 待分配 | |
-| M1.5 | todo | 待分配 | |
+| M0-M7 | ✅ 已完成 | - | 2026-03-02 |
+| M8 | ✅ done | Codex | 2026-03-02 |
+| M9 | ✅ done | Codex | 2026-03-02 |
+
+### 产品方案
+
+| 方案 | 描述 | 文档 |
+|---|---|---|
+| **Resume Polisher MVP** | 局部 patch 润色，无评分器（P0） | [MVP_最小闭环架构方案_v1.md](./product/MVP_最小闭环架构方案_v1.md) |
+| Resume Fit Agent | 方向聚类 + 评分（完整版，P1） | [MVP_PRD_Resume_Fit_Agent.md](./product/MVP_PRD_Resume_Fit_Agent.md) |
+| **M8-M9 开发计划** | MVP 详细技术实现 | [M8_M9_开发计划.md](./M8_M9_开发计划.md) |
 
 ### Git Tags
 
@@ -185,6 +199,8 @@ A: 使用 [开发流程规范.md](./开发流程规范.md#4-汇报格式) 中的
 
 | 日期 | 版本 | 更新内容 |
 |---|---|---|
+| 2026-03-02 | v1.2 | M8/M9 功能与测试落地，新增部署说明 |
+| 2026-03-02 | v1.1 | 新增 M8-M9 开发计划，明确 Resume Polisher MVP 方案 |
 | 2026-02-27 | v1.0 | 初始版本 |
 
 ---
