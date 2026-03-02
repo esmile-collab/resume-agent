@@ -10,17 +10,15 @@ from typing import Any
 class HardMetricsScore:
     """Hard metrics score based on objective rules."""
 
-    # Dimension scores with defaults
-    internship_score: float = 0.0  # 25% weight
-    project_score: float = 0.0  # 20% weight
-    technical_practice_score: float = 0.0  # 15% weight
-    education_score: float = 0.0  # 10% weight
-    major_score: float = 0.0  # 10% weight
-    gpa_score: float = 0.0  # 5% weight
-    competition_score: float = 0.0  # 5% weight
-    english_score: float = 0.0  # 5% weight
-    github_score: float = 0.0  # 3% weight
-    stability_score: float = 0.0  # 2% weight
+    # Dimension scores with defaults (total: 100% after removing competition 5% and github 3%)
+    internship_score: float = 0.0  # 27% weight (was 25%)
+    project_score: float = 0.0  # 22% weight (was 20%)
+    technical_practice_score: float = 0.0  # 16% weight (was 15%)
+    education_score: float = 0.0  # 11% weight (was 10%)
+    major_score: float = 0.0  # 11% weight (was 10%)
+    gpa_score: float = 0.0  # 6% weight (was 5%)
+    english_score: float = 0.0  # 5% weight (unchanged)
+    stability_score: float = 0.0  # 2% weight (unchanged)
 
     # Total normalized score (0-100)
     total_score: float = 0.0
@@ -37,9 +35,7 @@ class HardMetricsScore:
             "education": {"score": self.education_score, "evidence": self.evidence.get("education", "")},
             "major": {"score": self.major_score, "evidence": self.evidence.get("major", "")},
             "gpa": {"score": self.gpa_score, "evidence": self.evidence.get("gpa", "")},
-            "competition": {"score": self.competition_score, "evidence": self.evidence.get("competition", "")},
             "english": {"score": self.english_score, "evidence": self.evidence.get("english", "")},
-            "github": {"score": self.github_score, "evidence": self.evidence.get("github", "")},
             "stability": {"score": self.stability_score, "evidence": self.evidence.get("stability", "")},
             "total": self.total_score,
         }
@@ -60,13 +56,14 @@ class SoftMetricDimension:
 class SoftMetricsScore:
     """Soft metrics score from LLM evaluation."""
 
-    # Dimension scores (6 unified dimensions) with defaults
-    learning_ability: float = 0.0  # 25% weight
-    execution: float = 0.0  # 25% weight
-    communication: float = 0.0  # 15% weight
-    data_awareness: float = 0.0  # 15% weight
-    stability: float = 0.0  # 10% weight
-    adaptability: float = 0.0  # 10% weight
+    # Dimension scores (7 unified dimensions) with defaults
+    learning_ability: float = 0.0  # 22% weight (was 25%)
+    execution: float = 0.0  # 22% weight (was 25%)
+    communication: float = 0.0  # 13% weight (was 15%)
+    data_awareness: float = 0.0  # 13% weight (was 15%)
+    stability: float = 0.0  # 9% weight (was 10%)
+    adaptability: float = 0.0  # 9% weight (was 10%)
+    resume_logic: float = 0.0  # 12% weight (NEW dimension)
 
     # Total score (0-100)
     total_score: float = 0.0
@@ -177,9 +174,7 @@ class ScoreReport:
                 "education": "📚 学历层次",
                 "major": "🎓 专业对口",
                 "gpa": "📊 在校成绩",
-                "competition": "🏆 竞赛获奖",
                 "english": "🌐 英语水平",
-                "github": "🐙 开源贡献",
                 "stability": "⏰ 稳定性",
             }
 
@@ -209,6 +204,7 @@ class ScoreReport:
                 "data_awareness": "📊 数据意识",
                 "stability": "🎯 稳定性",
                 "adaptability": "🔗 适配度",
+                "resume_logic": "📝 简历逻辑性",
             }
 
             for d in s.dimensions:

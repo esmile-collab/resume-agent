@@ -55,16 +55,14 @@ def _get_llm_client():
 class ExtractionResult:
     """Result from first LLM call - parameter extraction and soft scoring."""
 
-    # Hard metrics parameters
+    # Hard metrics parameters (removed competition and github)
     internship_params: dict[str, Any] = field(default_factory=dict)
     project_params: dict[str, Any] = field(default_factory=dict)
     technical_practice_params: dict[str, Any] = field(default_factory=dict)
     education_params: dict[str, Any] = field(default_factory=dict)
     major_params: dict[str, Any] = field(default_factory=dict)
     gpa_params: dict[str, Any] = field(default_factory=dict)
-    competition_params: dict[str, Any] = field(default_factory=dict)
     english_params: dict[str, Any] = field(default_factory=dict)
-    github_params: dict[str, Any] = field(default_factory=dict)
     stability_params: dict[str, Any] = field(default_factory=dict)
 
     # Soft metrics scores
@@ -78,28 +76,27 @@ class ExtractionResult:
 class CampusScorerV21:
     """Campus recruitment scorer v2.1 with unified soft metrics."""
 
-    # Hard metrics weights
+    # Hard metrics weights (removed competition 5% and github 3%, redistributed)
     HARD_WEIGHTS = {
-        "internship": 0.25,
-        "project": 0.20,
-        "technical_practice": 0.15,
-        "education": 0.10,
-        "major": 0.10,
-        "gpa": 0.05,
-        "competition": 0.05,
+        "internship": 0.27,
+        "project": 0.22,
+        "technical_practice": 0.16,
+        "education": 0.11,
+        "major": 0.11,
+        "gpa": 0.06,
         "english": 0.05,
-        "github": 0.03,
         "stability": 0.02,
     }
 
-    # Soft metrics weights
+    # Soft metrics weights (added resume_logic, adjusted all weights proportionally)
     SOFT_WEIGHTS = {
-        "learning_ability": 0.25,
-        "execution": 0.25,
-        "communication": 0.15,
-        "data_awareness": 0.15,
-        "stability": 0.10,
-        "adaptability": 0.10,
+        "learning_ability": 0.22,
+        "execution": 0.22,
+        "communication": 0.13,
+        "data_awareness": 0.13,
+        "stability": 0.09,
+        "adaptability": 0.09,
+        "resume_logic": 0.12,
     }
 
     def __init__(self, *, model: str | None = None):
@@ -159,16 +156,14 @@ class CampusScorerV21:
             resume_summary=data.get("resume_summary", resume[:100]),
         )
 
-        # Parse hard metrics parameters
+        # Parse hard metrics parameters (removed competition and github)
         result.internship_params = data.get("internship_requirement", {})
         result.project_params = data.get("project_requirement", {})
         result.technical_practice_params = data.get("technical_practice", {})
         result.education_params = data.get("education_level", {})
         result.major_params = data.get("major_requirement", {})
         result.gpa_params = data.get("gpa_requirement", {})
-        result.competition_params = data.get("competition_preference", {})
         result.english_params = data.get("english_requirement", {})
-        result.github_params = data.get("github_preference", {})
         result.stability_params = data.get("availability", {})
 
         # Parse soft metrics
@@ -180,57 +175,47 @@ class CampusScorerV21:
         """Calculate hard metrics score using rule-based logic."""
         score = HardMetricsScore()
 
-        # Internship (25%)
+        # Internship (27%)
         score.internship_score = self._score_internship(extraction.internship_params)
         score.evidence["internship"] = self._get_internship_evidence(extraction.internship_params)
 
-        # Project (20%)
+        # Project (22%)
         score.project_score = self._score_project(extraction.project_params)
         score.evidence["project"] = self._get_project_evidence(extraction.project_params)
 
-        # Technical practice (15%)
+        # Technical practice (16%)
         score.technical_practice_score = self._score_technical_practice(extraction.technical_practice_params)
         score.evidence["technical_practice"] = self._get_technical_practice_evidence(extraction.technical_practice_params)
 
-        # Education (10%)
+        # Education (11%)
         score.education_score = self._score_education(extraction.education_params)
         score.evidence["education"] = self._get_education_evidence(extraction.education_params)
 
-        # Major (10%)
+        # Major (11%)
         score.major_score = self._score_major(extraction.major_params)
         score.evidence["major"] = self._get_major_evidence(extraction.major_params)
 
-        # GPA (5%)
+        # GPA (6%)
         score.gpa_score = self._score_gpa(extraction.gpa_params)
         score.evidence["gpa"] = self._get_gpa_evidence(extraction.gpa_params)
-
-        # Competition (5%)
-        score.competition_score = self._score_competition(extraction.competition_params)
-        score.evidence["competition"] = self._get_competition_evidence(extraction.competition_params)
 
         # English (5%)
         score.english_score = self._score_english(extraction.english_params)
         score.evidence["english"] = self._get_english_evidence(extraction.english_params)
 
-        # GitHub (3%)
-        score.github_score = self._score_github(extraction.github_params)
-        score.evidence["github"] = self._get_github_evidence(extraction.github_params)
-
         # Stability (2%)
         score.stability_score = self._score_stability(extraction.stability_params)
         score.evidence["stability"] = self._get_stability_evidence(extraction.stability_params)
 
-        # Calculate total (weighted sum, then normalized to 0-100)
+        # Calculate total with new weights (removed competition and github)
         score.total_score = (
-            score.internship_score * 0.25
-            + score.project_score * 0.20
-            + score.technical_practice_score * 0.15
-            + score.education_score * 0.10
-            + score.major_score * 0.10
-            + score.gpa_score * 0.05
-            + score.competition_score * 0.05
+            score.internship_score * 0.27
+            + score.project_score * 0.22
+            + score.technical_practice_score * 0.16
+            + score.education_score * 0.11
+            + score.major_score * 0.11
+            + score.gpa_score * 0.06
             + score.english_score * 0.05
-            + score.github_score * 0.03
             + score.stability_score * 0.02
         )
 
@@ -244,7 +229,7 @@ class CampusScorerV21:
 
         score = SoftMetricsScore()
 
-        # Parse dimension scores
+        # Parse dimension scores (7 dimensions including resume_logic)
         dimensions_map = {
             "learning_ability": "learning_ability",
             "execution": "execution",
@@ -252,6 +237,7 @@ class CampusScorerV21:
             "data_awareness": "data_awareness",
             "stability": "stability",
             "adaptability": "adaptability",
+            "resume_logic": "resume_logic",
         }
 
         for eng_name, soft_key in dimensions_map.items():
@@ -270,14 +256,15 @@ class CampusScorerV21:
                 )
             )
 
-        # Calculate total
+        # Calculate total with new weights (7 dimensions)
         score.total_score = (
-            score.learning_ability * 0.25
-            + score.execution * 0.25
-            + score.communication * 0.15
-            + score.data_awareness * 0.15
-            + score.stability * 0.10
-            + score.adaptability * 0.10
+            score.learning_ability * 0.22
+            + score.execution * 0.22
+            + score.communication * 0.13
+            + score.data_awareness * 0.13
+            + score.stability * 0.09
+            + score.adaptability * 0.09
+            + score.resume_logic * 0.12
         )
 
         # Parse strengths and weaknesses
@@ -390,19 +377,9 @@ class CampusScorerV21:
     "gpa": GPA分数,
     "ranking": "前10%/前30%/前50%/其他"
   }},
-  "competition_preference": {{
-    "has_competition": true/false,
-    "level": "国际级/国家级/省级/校级",
-    "awards": ["奖项1", "奖项2"]
-  }},
   "english_requirement": {{
     "certificate": "雅思/托福/六级/无",
     "score": 分数
-  }},
-  "github_preference": {{
-    "has_github": true/false,
-    "active": true/false,
-    "repos": ["仓库1", "仓库2"]
   }},
   "availability": {{
     "available_days": 可实习天数,
@@ -413,84 +390,123 @@ class CampusScorerV21:
       "dimension": "学习能力",
       "score": 0-100分数,
       "reasoning": "评分理由",
-      "evidence": "证据",
+      "evidence": "证据（必须引用简历中的具体描述或数据）",
       "evidence_level": "100分标准/80分标准/60分标准/40分标准"
     }},
     "execution": {{
       "dimension": "执行能力",
       "score": 0-100分数,
       "reasoning": "评分理由",
-      "evidence": "证据",
+      "evidence": "证据（必须引用简历中的具体描述或数据）",
       "evidence_level": "100分标准/80分标准/60分标准/40分标准"
     }},
     "communication": {{
       "dimension": "沟通表达",
       "score": 0-100分数,
       "reasoning": "评分理由",
-      "evidence": "证据",
+      "evidence": "证据（必须引用简历中的具体描述或数据）",
       "evidence_level": "100分标准/70分标准/50分标准/40分标准"
     }},
     "data_awareness": {{
       "dimension": "数据意识",
       "score": 0-100分数,
       "reasoning": "评分理由",
-      "evidence": "证据",
+      "evidence": "证据（必须引用简历中的具体数据指标）",
       "evidence_level": "100分标准/80分标准/60分标准/40分标准"
     }},
     "stability": {{
       "dimension": "稳定性",
       "score": 0-100分数,
       "reasoning": "评分理由",
-      "evidence": "证据",
+      "evidence": "证据（必须引用简历中的具体描述）",
       "evidence_level": "100分标准/70分标准/40分标准"
     }},
     "adaptability": {{
       "dimension": "适配度",
       "score": 0-100分数,
       "reasoning": "评分理由",
-      "evidence": "证据",
+      "evidence": "证据（必须引用简历中的具体描述）",
       "evidence_level": "100分标准/70分标准/40分标准"
+    }},
+    "resume_logic": {{
+      "dimension": "简历逻辑性",
+      "score": 0-100分数,
+      "reasoning": "评分理由",
+      "evidence": "证据（必须指出简历逻辑问题的具体位置）",
+      "evidence_level": "100分标准/80分标准/60分标准/40分标准"
     }},
     "strengths": [{{"dimension": "维度名", "reason": "原因"}}],
     "weaknesses": [{{"dimension": "维度名", "reason": "原因"}}]
   }}
 }}
 
-## 软性指标评分标准
+## 软性指标评分标准（重点：数据指标是证据，软件所有人都会）
 
-### 学习能力（25%）
+### 学习能力（22%）
 - 100分：快速掌握多项新技能（3个月3项新技能，自学难度高的技术）
+  - 证据要求：具体的学习时间、技术名称、应用场景
 - 80分：正常掌握新技能（按计划学习，在项目中应用）
+  - 证据要求：技术名称、项目应用情况
 - 60分：较慢掌握新技能（学习时间比预期长，需要额外指导）
+  - 证据要求：技术名称、学习时长
 - 40分：学习困难（技能掌握不扎实，需要反复指导）
+  - 证据要求：无明显学习成果
 
-### 执行能力（25%）
+### 执行能力（22%）
 - 100分：主导完成完整项目（从0到1完成项目上线，独立负责核心模块）
+  - 证据要求：项目名称、上线状态、用户数/数据指标
 - 80分：参与完成项目（参与项目并负责重要部分，独立完成分配任务）
+  - 证据要求：项目名称、个人职责、产出成果
 - 60分：辅助完成项目（协助团队完成支持工作，按指令完成任务）
+  - 证据要求：协助的具体工作
 - 40分：只有想法未落地（提出想法但未实施，参与讨论但无产出）
+  - 证据要求：无实际产出
 
-### 沟通表达（15%）
+### 沟通表达（13%）
 - 100分：表达清晰，逻辑严密（项目描述清晰，回答问题有条理）
+  - 证据要求：简历中逻辑清晰的具体段落
 - 70分：表达基本清晰（能说明白项目内容，逻辑基本通顺）
+  - 证据要求：项目描述完整但略显冗长
 - 50分：表达一般（描述不够清晰，逻辑有些混乱）
+  - 证据要求：指出逻辑混乱的具体位置
 - 40分：表达混乱（说不清楚做了什么，逻辑混乱）
+  - 证据要求：多处逻辑问题
 
-### 数据意识（15%）
+### 数据意识（13%）
 - 100分：量化成果，用数据指导决策（将留存率提升30%，A/B测试数据显示方案A更好）
+  - 证据要求：必须包含具体数字（用户数、转化率、百分比等）
 - 80分：有数据意识，偶尔用数据（提到一些数据，但不够深入）
+  - 证据要求：有数据但不够详细
 - 60分：提到数据但不够深入（说效果很好但无具体数据）
+  - 证据要求：使用"很好"、"不错"等定性描述
 - 40分：完全没有数据意识（全部是定性描述，无量化思维）
+  - 证据要求：无任何数据指标
 
-### 稳定性（10%）
+### 稳定性（9%）
 - 100分：职业规划清晰，长期意愿（希望在XX领域深耕，3-5年职业规划明确）
+  - 证据要求：明确的职业规划表述
 - 70分：基本稳定，短期意愿（愿意先尝试这个方向）
+  - 证据要求：有相关意向但不够明确
 - 40分：不稳定，频繁跳方向（短期内多次换方向，职业目标模糊）
+  - 证据要求：方向频繁变化的痕迹
 
-### 适配度（10%）
+### 适配度（9%）
 - 100分：高度匹配，价值观契合（个人兴趣与岗位高度契合，对公司文化有了解）
+  - 证据要求：明确表达对岗位/公司的兴趣
 - 70分：基本匹配，可以适应（具备岗位要求的能力，愿意学习）
+  - 证据要求：技能匹配的证据
 - 40分：不太匹配，需要调整（兴趣不匹配，能力明显不足）
+  - 证据要求：能力/兴趣与岗位不匹配的具体表现
+
+### 简历逻辑性（12%）
+- 100分：结构清晰，逻辑严密，信息层次分明（经历按时间倒序，重点突出）
+  - 证据要求：整体结构评价、关键信息位置
+- 80分：结构基本清晰，逻辑通顺（整体合理，个别地方略显冗余）
+  - 证据要求：指出需要优化的小问题
+- 60分：结构一般，逻辑有些混乱（信息组织不够清晰，关键信息不突出）
+  - 证据要求：指出逻辑混乱的具体位置
+- 40分：结构混乱，逻辑不清（不知道重点是什么，难以快速获取信息）
+  - 证据要求：多处结构性问题
 
 只返回 JSON，不要返回其他内容。
 """
@@ -525,6 +541,7 @@ class CampusScorerV21:
 - 数据意识: {soft_score.data_awareness:.0f}/100
 - 稳定性: {soft_score.stability:.0f}/100
 - 适配度: {soft_score.adaptability:.0f}/100
+- 简历逻辑性: {soft_score.resume_logic:.0f}/100
 
 ## 总分
 {final_score:.1f}/100
@@ -735,31 +752,6 @@ class CampusScorerV21:
         ranking = params.get("ranking", "未知")
         return f"GPA: {gpa} ({ranking})" if gpa else ranking
 
-    def _score_competition(self, params: dict[str, Any]) -> float:
-        """Score competition: 国际级=100, 国家级=85, 省级=70, 校级=50."""
-        level = params.get("level", "")
-        if not params.get("has_competition", False):
-            return 30.0
-
-        if "国际" in level:
-            return 100.0
-        elif "国家" in level:
-            return 85.0
-        elif "省" in level:
-            return 70.0
-        else:
-            return 50.0
-
-    def _get_competition_evidence(self, params: dict[str, Any]) -> str:
-        """Get competition evidence string."""
-        if not params.get("has_competition", False):
-            return "无竞赛获奖"
-        level = params.get("level", "")
-        awards = params.get("awards", [])
-        if awards:
-            return f"{level}: {awards[0]}{'...' if len(awards) > 1 else ''}"
-        return level
-
     def _score_english(self, params: dict[str, Any]) -> float:
         """Score English: 雅思7+/托福100+=100, 六级500+=85, 六级425+=70."""
         cert = params.get("certificate", "")
@@ -784,22 +776,6 @@ class CampusScorerV21:
         cert = params.get("certificate", "无证书")
         score = params.get("score", 0)
         return f"{cert} {score}分" if score else cert
-
-    def _score_github(self, params: dict[str, Any]) -> float:
-        """Score GitHub: 有且活跃=100, 有一般=70, 无=30."""
-        if params.get("has_github", False):
-            return 100.0 if params.get("active", False) else 70.0
-        return 30.0
-
-    def _get_github_evidence(self, params: dict[str, Any]) -> str:
-        """Get GitHub evidence string."""
-        if not params.get("has_github", False):
-            return "无 GitHub"
-        active = "活跃" if params.get("active", False) else "一般"
-        repos = params.get("repos", [])
-        if repos:
-            return f"有 GitHub ({active}): {repos[0]}{'...' if len(repos) > 1 else ''}"
-        return f"有 GitHub ({active})"
 
     def _score_stability(self, params: dict[str, Any]) -> float:
         """Score stability: 完全满足=100, 基本满足=70, 有冲突=40."""
@@ -843,6 +819,6 @@ class CampusScorerV21:
         return [
             "争取一份相关实习（大厂 > 独角兽 > 中型公司）",
             "完成 1-2 个完整的个人/开源项目",
-            "补充 GitHub 开源贡献",
             "系统学习核心技能并产出项目",
+            "优化简历结构，突出逻辑性和可读性",
         ]
