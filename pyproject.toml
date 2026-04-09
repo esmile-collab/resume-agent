@@ -1,3 +1,7 @@
+# Input: Python 包元数据、依赖和测试工具配置。
+# Output: 提供后端安装、脚本入口和开发工具配置。
+# Pos: 根目录 Python 构建清单。
+# Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 README。
 [project]
 name = "resume-agent"
 version = "0.1.0"
@@ -9,6 +13,10 @@ dependencies = [
     "fastapi>=0.110.0",
     "uvicorn>=0.27.0",
     "httpx>=0.27.0",
+    "python-multipart>=0.0.9",
+    "pypdf>=5.3.1",
+    "python-docx>=1.1.2",
+    "reportlab>=4.2.5",
 ]
 
 [project.optional-dependencies]

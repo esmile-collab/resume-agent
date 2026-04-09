@@ -1,4 +1,8 @@
 #!/bin/bash
+# Input: pytest 与本地回归命令。
+# Output: 执行仓库回归检查。
+# Pos: 回归脚本。
+# Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 README。
 # M7 最小回归脚本：覆盖主链路与新增稳定性模块
 
 set -euo pipefail

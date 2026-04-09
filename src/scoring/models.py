@@ -1,3 +1,7 @@
+# Input: 评分器内部的维度定义和报告结构。
+# Output: 输出评分报告、硬指标、软指标等数据模型。
+# Pos: 评分子系统类型文件。
+# Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 README。
 """Data models for campus scoring system v2.1."""
 
 from __future__ import annotations

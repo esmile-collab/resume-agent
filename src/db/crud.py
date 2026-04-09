@@ -1,3 +1,7 @@
+# Input: 数据库连接、项目表和 JD 表。
+# Output: 输出项目与 JD 的基础 CRUD 能力。
+# Pos: 项目级基础仓储层。
+# Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 README。
 """CRUD repositories for M1 persistence layer."""
 
 from __future__ import annotations
@@ -197,6 +201,47 @@ class ProjectJDEntryCRUD:
                 (project_id,),
             ).fetchall()
             return [self._row_to_jd_entry(row) for row in rows]
+        finally:
+            conn.close()
+
+    def update(
+        self,
+        id: str,
+        *,
+        content: str | None = None,
+        source_file: str | None = None,
+    ) -> Optional[ProjectJDEntry]:
+        """Update one JD entry."""
+        current = self.get(id)
+        if current is None:
+            return None
+
+        conn = get_connection()
+        try:
+            with conn:
+                conn.execute(
+                    """
+                    UPDATE project_jd_entries
+                    SET raw_content = ?, source_file = ?
+                    WHERE id = ?
+                    """,
+                    (
+                        content if content is not None else current.raw_content,
+                        source_file if source_file is not None else current.source_file,
+                        id,
+                    ),
+                )
+            return self.get(id)
+        finally:
+            conn.close()
+
+    def delete(self, id: str) -> bool:
+        """Delete one JD entry."""
+        conn = get_connection()
+        try:
+            with conn:
+                cursor = conn.execute("DELETE FROM project_jd_entries WHERE id = ?", (id,))
+            return cursor.rowcount > 0
         finally:
             conn.close()
 

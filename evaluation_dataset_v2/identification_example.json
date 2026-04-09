@@ -1,0 +1,75 @@
+{
+  "resume_analysis": {
+    "jd_keywords_found": [
+      "深度学习",
+      "PyTorch",
+      "模型训练",
+      "Python"
+    ],
+    "jd_keywords_missing": [
+      "LLM",
+      "大语言模型",
+      "SFT",
+      "微调",
+      "对话系统",
+      "NLP",
+      "Transformer",
+      "BERT",
+      "GPT"
+    ],
+    "sections_analyzed": [
+      {
+        "section_id": "internship_bytedance_01",
+        "section_type": "实习经历",
+        "title": "字节跳动 | 算法实习生",
+        "issues": [
+          {
+            "type": "keyword_missing",
+            "severity": "HIGH",
+            "description": "JD核心词'LLM/大语言模型'完全缺失",
+            "current_content": "负责深度学习模型的训练和优化工作",
+            "can_polish": true,
+            "polish_strategy": "将'深度学习模型'改为'深度学习/大语言模型'（LLM是深度学习的子集，不算编造）"
+          },
+          {
+            "type": "expression_passive",
+            "severity": "MEDIUM",
+            "description": "使用'负责'开头，表达较被动",
+            "current_content": "负责深度学习模型的训练和优化工作",
+            "can_polish": true,
+            "polish_strategy": "改为'主导深度学习/大语言模型的训练优化'"
+          }
+        ]
+      },
+      {
+        "section_id": "project_qa_01",
+        "section_type": "项目经历",
+        "title": "智能问答助手",
+        "issues": [
+          {
+            "type": "keyword_missing",
+            "severity": "HIGH",
+            "description": "JD核心词'对话系统'完全缺失",
+            "current_content": "使用API开发问答应用",
+            "can_polish": true,
+            "polish_strategy": "将'问答应用'改为'对话问答应用'或'智能问答系统'"
+          },
+          {
+            "type": "star_incomplete",
+            "severity": "HIGH",
+            "description": "缺少STAR结构的背景、任务、结果要素",
+            "current_content": "使用API开发了问答应用\n实现了多轮对话功能\n完成了系统测试和部署",
+            "can_polish": true,
+            "polish_strategy": "重新组织为STAR结构，添加定性描述但不编造数据"
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "total_issues": 4,
+      "high_priority": 2,
+      "medium_priority": 2,
+      "can_polish_without_fabrication": true
+    }
+  }
+}

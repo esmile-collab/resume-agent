@@ -1,221 +1,150 @@
-# Architecture - Resume Fit Agent
+<!--
+Input: 当前技术架构、模块边界与工程约束。
+Output: 输出技术文档《Architecture》的说明内容。
+Pos: 技术设计文档。
+Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 README。
+-->
+# Architecture
 
-## Summary
+## 1. 一句话架构
 
-The system is a single-agent core that orchestrates modular tools. The same core powers two entry points:
-1. Coding agent skill (CLI wrapper)
-2. Frontend via HTTP API
+当前系统是一个单后端、单前端、单会话运行时的简历工作台：React 前端负责状态可视化与编辑，FastAPI 后端负责 session/message API，`ResumeAgentRuntime` 负责 think-call-observe 主链，SQLite 与 `.data/artifacts/` 负责持久化。
 
-Key goals:
-- Intent recognition and gated routing
-- Memory for session and user facts
-- Evidence-bound outputs with score-based decisions
-- Stateful conversation management for out-of-order user input
-- Multi-direction JD split and multi-result output
-- Project-owned JD repository with centralized allocation
-- Deterministic counting: `jd_count`, `direction_count`, `resume_output_count`
+## 2. 模块边界
 
----
+### 2.1 Frontend
 
-## Layered Design
+目录：`frontend/`
 
-### 1. Core Engine (Claude Agent SDK)
+职责：
 
-Responsibilities:
-- Intent recognition and routing
-- Tool orchestration
-- Score-based recommendation and risk-confirmed execution
-- Structured JSON output for UI/CLI
-- Session state transition on every user event
+1. 创建/恢复 session。
+2. 管理 active track、artifact、editor、history 等前端状态。
+3. 消费后端 `snapshot / traces / artifacts / score detail`。
 
-### 2. Tools / Skills Modules
+### 2.2 API Layer
 
-Each module is a tool with strict input/output schema.
+目录：`src/api/`
 
-1. `jd_parser`
-- Input: JD text (or OCR text)
-- Output: project JD entries, split result, direction clusters (based on narrative framework difference), direction tags
-- **Key Logic**: Clusters JDs by "resume preparation cost" rather than keyword overlap
-  - Analyzes narrative framework (core competency story, experience focus, skill focus)
-  - Groups JDs that require the same resume narrative, even if business scenarios differ
-  - Does not enforce hard card count limit in MVP
-  - Outputs clustering rationale for user understanding
+职责：
 
-2. `resume_parser`
-- Input: resume text/PDF
-- Output: structured experiences, skills, evidence spans
+1. 暴露 `/agent/sessions`、`/agent/sessions/{id}/messages` 等主链端点。
+2. 暴露 track / JD / profile / experience / artifact 管理端点。
+3. 处理上传文件解析与类型识别。
 
-3. `scorer`
-- Input: parsed JD + parsed resume
-- Output: total score + sub-scores (fit,真实性风险,可复述性)
-- Output: match level (`high|medium|low`) for recommendation
+### 2.3 Agent Runtime
 
-4. `improver`
-- Input: mapped experiences + JD tags
-- Output: revised resume + change log + evidence bindings
+目录：`src/agent/`
 
-5. `reviewer`
-- Input: before/after resume + evidence
-- Output: post scores, pass/fail, guidance
+职责：
 
-6. `project_jd_allocator`
-- Input: source scope (`project|task_card`) + parsed JD entries + existing task cards
-- Output: allocation decisions (`assign_current_card|assign_existing_card|create_new_card`) + preview/confirm plan
+1. `runtime.py`：驱动会话生命周期与 trace 落盘。
+2. `planner.py`：根据消息内容决定 intent 与 tool steps。
+3. `tools.py`：注册 `ingest_jd / track_overview / resume_score / resume_generate / resume_polish`。
+4. `memory.py`：维护 profile、experiences、tracks、JD、artifacts 和 dialog summary。
 
----
+### 2.4 Domain Services
 
-## Conversation State Model
+目录：`src/services/`、`src/scoring/`
 
-The core keeps an explicit state machine instead of a single linear run.
+职责：
 
-### Entities
+1. `JDAnalyzer`：产出 strengths / gaps / actions。
+2. `ResumeParser`：把简历拆成 block JSON。
+3. `PolishPatcher`：生成 block 级 patch。
+4. `ResumeExporter`：导出 markdown 简历文本。
+5. `CampusScorerV21`：合成硬分与软分，输出评分报告。
 
-- `project`: one recruiting cycle context (e.g., internship / campus hiring)
-- `project_jd_entry`: project-owned JD source of truth
-- `task_card`: one JD direction card under project
-- `card_jd_link`: mapping between project JD entries and task cards
-- `artifact_version`: immutable JD/resume/output snapshots
-- `memory`: scoped memory (project shared + task-card private)
-- `metrics`: `jd_count`, `direction_count`, `resume_output_count`
+### 2.5 Persistence
 
-### Task Status
+目录：`src/db/`
 
-- `pending`
-- `scored`
-- `generating`
-- `completed`
-- `abandoned`
+职责：
 
-### Score Recommendation
+1. `database.py`：建库、建表、连接。
+2. `crud.py`：项目和 JD 的基础仓储。
+3. `agent_crud.py`：session、message、profile、track、artifact、trace 等仓储。
 
-- `high`: recommend normal generate
-- `medium`: recommend supplement then generate
-- `low`: require risk acknowledgement before compensation generate
-- Note: score is recommendation signal, not a hard gate
+### 2.6 Observability
 
----
+目录：`src/observability/`
 
-## Event Handling (Out-of-Order Input)
+职责：
 
-Every user message first goes through an input router.
+1. 长对话压缩。
+2. dialog summary 持久化。
+3. 为 memory snapshot 提供近期消息和摘要视图。
 
-Message types:
-- `resume_update`
-- `ingest_jd`
-- `profile_supplement`
-- `command`
+## 3. 关键数据对象
 
-Rules:
-1. If user sends a new JD while editing another card:
-- write JD into `project_jd_entry`
-- run `project_jd_allocator` to decide assign current / assign existing / create new card
-2. If user sends supplement after scoring:
-- write supplement to current `task_card` memory only
-- do not auto-sync to project or other cards
-3. If user sends multiple JD directions in one message:
-- split and cluster first, show preview, wait for user confirmation
-- create/update task cards after confirmation
-4. If user sends multiple JD entries of same direction:
-- keep per-JD records for scoring evidence
-- link them to one direction card for resume generation
+1. `Project`：一次投递周期容器。
+2. `AgentSession`：一次会话。
+3. `CandidateProfile`：候选人结构化画像。
+4. `ExperienceItem`：可复用经历资产。
+5. `JobTrack`：长期求职方向。
+6. `ProjectJDEntry` + `JobTrackJDLink`：JD 资产池与方向绑定关系。
+7. `AgentArtifact`：评分、生成、润色和编辑产物。
+8. `RunTrace`：intent / thought / tool_call / observation 轨迹。
 
----
+## 4. 请求链路
 
-## Intent Recognition
+```mermaid
+flowchart LR
+    A["User / Browser"] --> B["React Workspace"]
+    B --> C["FastAPI API"]
+    C --> D["ResumeAgentRuntime"]
+    D --> E["MemoryManager"]
+    D --> F["AgentPlanner"]
+    D --> G["AgentToolRegistry"]
+    G --> H["Scoring + Services"]
+    E --> I["SQLite"]
+    E --> J[".data/artifacts"]
+    D --> K["RunTrace"]
+    C --> B
+```
 
-Minimal but explicit:
-1. Intent label from router (`ingest_jd|update_resume|add_info|generate|compare|abandon`)
-2. State compatibility check
-3. Candidate intents for clarification traceability
+主链顺序：
 
-Intent output schema:
-- `intent`: one of 6 core intents
-- `reason`: short rationale
-- `candidates`: optional alternative intents for clarification
-- `need_clarification`: whether to ask a follow-up question
+1. 前端发消息到 `/agent/sessions/{session_id}/messages`。
+2. runtime 先落消息并更新 memory。
+3. planner 产出 intent 与 steps。
+4. runtime 顺序执行工具，并记录 `thought / tool_call / observation`。
+5. memory 生成最新 snapshot。
+6. API 把 reply、snapshot、tool_steps、traces 返给前端。
 
----
+## 5. 文件系统与数据落点
 
-## Memory Design
+### 5.1 SQLite
 
-### Project Shared Memory
-- Base resume versions uploaded by user
-- Project-level metadata (name, target cycle)
-- Project JD repository (raw JD + parsed structure)
-- JD allocation logs (decision + reason + target card)
+默认路径：`.data/resume_agent.db`
 
-### Task-Card Private Memory
-- JD-specific supplement facts from conversation
-- JD-specific clarifications and constraints
-- Card-level notes for generation
-- Does not store JD raw source, only references via `card_jd_link`
+用途：
 
-MVP storage: `SQLite` preferred (supports task states and retries) or `JSONL`.
+1. 结构化状态持久化。
+2. 会话与消息历史。
+3. artifact 元数据与 trace 索引。
 
-Recommended tables:
-- `projects`
-- `project_jd_entries`
-- `task_cards`
-- `card_jd_links`
-- `jd_allocation_logs`
-- `artifact_versions`
-- `runs`
-- `task_memory_facts`
-- `messages`
+### 5.2 Artifact 文件
 
----
+默认路径：`.data/artifacts/<project_id>/`
 
-## Data Flow
+子目录：
 
-1. Ingest user message
-2. Route message type and upsert artifacts
-3. For `ingest_jd`, write JD entries into project repository and compute `jd_count`
-4. Split/cluster JD entries and compute `direction_count`
-5. Build preview allocation plan and wait for user confirmation (batch case)
-6. Run `project_jd_allocator` and update `card_jd_link`
-7. Set resume plan and compute `resume_output_count` (default equals `direction_count`)
-8. Score affected task cards and compute match level
-9. User chooses generate action on selected task card
-10. Improve + review on selected task card
-11. Output per-card artifacts and status
+1. `jd/`
+2. `resume/`
+3. `state/`
+4. `agent/outputs/`
 
----
+## 6. 当前技术债
 
-## Output Artifacts
+1. `src/tools/` 目前只是包占位，真实工具注册在 `src/agent/tools.py`。
+2. 评分器仍带有可选 LLM 客户端分支，部署时需要更清楚的环境变量策略。
+3. 前端与后端都已收敛到单工作台主链，但评测和历史研究材料仍较多，需继续与主线隔离。
+4. 文档和历史设计稿已按 active/reference/archive 分层，但仍需要持续维护边界。
 
-- Aggregated counts: `jd_count`, `direction_count`, `resume_output_count`
-- Direction-level scorecards
-- Revised resume per direction
-- Change log with evidence per direction
-- Interview question set per direction
-- Abandoned directions with improvement advice
+## 7. 部署边界
 
-Example:
-- input 10 JD entries (5 strategy + 5 feature) -> `jd_count=10`
-- clustered to 2 directions -> `direction_count=2`
-- user confirms allocation -> create/update 2 direction cards
-- output 2 resumes -> `resume_output_count=2`
-
----
-
-## Entry Points
-
-### A. Coding Agent Skill
-
-A CLI wrapper calls the core engine and returns Markdown.
-
-Example CLI:
-`resume_agent project ingest-jd --project <project_id> --jd <path> && resume_agent project confirm-allocation --project <project_id> --plan <plan_id>`
-
-### B. Frontend API
-
-HTTP endpoint wraps the same core engine:
-- `POST /run`
-
----
-
-## Constraints
-
-- Single agent workflow
-- Evidence binding for every change
-- Deterministic state transition per message (no hidden state jump)
+1. 后端可以通过 `resume_agent serve` 启动。
+2. 前端使用 Vite 构建并以静态站点部署。
+3. 后端运行需要可写 `.data/` 目录。
+4. 生产部署建议前后端分离：前端上 Vercel，后端上 Render。

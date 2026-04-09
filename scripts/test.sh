@@ -1,4 +1,8 @@
 #!/bin/bash
+# Input: 开发者本地测试命令。
+# Output: 执行默认测试集合。
+# Pos: 测试快捷脚本。
+# Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 README。
 # Test - 运行测试套件
 
 set -e

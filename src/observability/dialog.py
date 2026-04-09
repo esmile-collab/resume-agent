@@ -1,3 +1,7 @@
+# Input: 项目目录、消息历史和 JSON 文件存储。
+# Output: 输出长对话压缩、摘要恢复和消息落盘能力。
+# Pos: 对话观测与压缩模块。
+# Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 README。
 """Long-dialog compression manager (M7, 30-turn threshold)."""
 
 from __future__ import annotations

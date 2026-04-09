@@ -1,3 +1,7 @@
+# Input: JD、简历文本和可选 LLM 客户端。
+# Output: 输出硬软结合的评分报告对象。
+# Pos: 当前 resume_score 工具背后的评分引擎。
+# Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 README。
 """Campus recruitment scorer v2.1 - mixed scoring approach.
 
 This module implements the campus recruitment scoring system with:

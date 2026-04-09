@@ -1,0 +1,102 @@
+[
+  {
+    "scenario": "关键词缺失场景",
+    "jd_name": "ai_engineer_bytedance",
+    "resume_name": "resume_with_hidden_keywords",
+    "score_before": {
+      "final_score": 53.959999999999994,
+      "match_level": "medium",
+      "hard_score": 31.7,
+      "soft_score": 68.8
+    },
+    "score_after": {
+      "final_score": 53.959999999999994,
+      "match_level": "medium",
+      "hard_score": 31.7,
+      "soft_score": 68.8
+    },
+    "score_improvement": 0.0,
+    "changes_count": 2,
+    "fact_check_passed": true
+  },
+  {
+    "scenario": "STAR不完整场景",
+    "jd_name": "ai_engineer_bytedance",
+    "resume_name": "resume_incomplete_star",
+    "score_before": {
+      "final_score": 53.959999999999994,
+      "match_level": "medium",
+      "hard_score": 31.7,
+      "soft_score": 68.8
+    },
+    "score_after": {
+      "final_score": 53.959999999999994,
+      "match_level": "medium",
+      "hard_score": 31.7,
+      "soft_score": 68.8
+    },
+    "score_improvement": 0.0,
+    "changes_count": 2,
+    "fact_check_passed": true
+  },
+  {
+    "scenario": "被动表达场景",
+    "jd_name": "ai_engineer_bytedance",
+    "resume_name": "resume_passive_voice",
+    "score_before": {
+      "final_score": 53.959999999999994,
+      "match_level": "medium",
+      "hard_score": 31.7,
+      "soft_score": 68.8
+    },
+    "score_after": {
+      "final_score": 53.959999999999994,
+      "match_level": "medium",
+      "hard_score": 31.7,
+      "soft_score": 68.8
+    },
+    "score_improvement": 0.0,
+    "changes_count": 3,
+    "fact_check_passed": true
+  },
+  {
+    "scenario": "前端关键词缺失",
+    "jd_name": "frontend_meituan",
+    "resume_name": "resume_with_hidden_keywords",
+    "score_before": {
+      "final_score": 53.959999999999994,
+      "match_level": "medium",
+      "hard_score": 31.7,
+      "soft_score": 68.8
+    },
+    "score_after": {
+      "final_score": 53.959999999999994,
+      "match_level": "medium",
+      "hard_score": 31.7,
+      "soft_score": 68.8
+    },
+    "score_improvement": 0.0,
+    "changes_count": 2,
+    "fact_check_passed": true
+  },
+  {
+    "scenario": "产品关键词缺失",
+    "jd_name": "pm_tencent",
+    "resume_name": "resume_with_hidden_keywords",
+    "score_before": {
+      "final_score": 53.959999999999994,
+      "match_level": "medium",
+      "hard_score": 31.7,
+      "soft_score": 68.8
+    },
+    "score_after": {
+      "final_score": 53.959999999999994,
+      "match_level": "medium",
+      "hard_score": 31.7,
+      "soft_score": 68.8
+    },
+    "score_improvement": 0.0,
+    "changes_count": 2,
+    "fact_check_passed": true
+  }
+]

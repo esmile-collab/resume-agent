@@ -101,6 +101,7 @@ dmypy.json
 # IDE
 .vscode/
 .idea/
+.DS_Store
 *.swp
 *.swo
 *~
@@ -110,6 +111,12 @@ dmypy.json
 *.db
 test_reports/
 .test_env_id
+frontend/node_modules/
+frontend/dist/
+frontend/vite.config.js
+frontend/vite.config.d.ts
+frontend/*.tsbuildinfo
+.tmp-*.png
 
 # Obsidian
 .obsidian/

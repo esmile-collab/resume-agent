@@ -1,0 +1,16 @@
+# GitLab CI 示例（也可用于 GitHub Actions）
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  image: node:18
+  script:
+    - cd frontend
+    - npm install
+    - npm run build
+    # Vercel CLI 部署
+    - npm install -g vercel
+    - vercel --prod --token=$VERCEL_TOKEN
+  only:
+    - main

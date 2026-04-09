@@ -1,0 +1,26 @@
+# Input: Render 平台环境变量、持久化磁盘与仓库源码。
+# Output: 提供当前后端服务在 Render 的部署配置。
+# Pos: 根目录部署文件。
+# Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 README。
+# Render.com 部署配置
+# 将此文件提交到 git，然后在 Render 导入项目
+
+services:
+  - type: web
+    name: resume-agent-api
+    runtime: python
+    buildCommand: pip install -e .
+    startCommand: sh -c "resume_agent init-db && resume_agent serve --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: PORT
+        value: 8000
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+    disk:
+      name: data
+      mountPath: /opt/render/project/.data
+      sizeGB: 1

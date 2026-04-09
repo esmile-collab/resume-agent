@@ -1,0 +1,1018 @@
+{
+  "results": [
+    {
+      "pair_id": "edu_001",
+      "category": "学历_985_AI",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "education": 100,
+        "overall": "high"
+      },
+      "expected_match_level": "high",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "edu_002",
+      "category": "学历_211_AI",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "education": 85,
+        "overall": "medium"
+      },
+      "expected_match_level": "medium",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "edu_003",
+      "category": "学历_双非_AI",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "education": 70,
+        "overall": "medium-low"
+      },
+      "expected_match_level": "medium-low",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "edu_004",
+      "category": "学历_海外Top_AI",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "education": 105,
+        "overall": "high"
+      },
+      "expected_match_level": "high",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "edu_005",
+      "category": "学历_985_前端",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "education": 100,
+        "overall": "high"
+      },
+      "expected_match_level": "high",
+      "jd_position": "前端开发工程师",
+      "jd_company": "美团"
+    },
+    {
+      "pair_id": "edu_006",
+      "category": "学历_211_前端",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "education": 85,
+        "overall": "medium"
+      },
+      "expected_match_level": "medium",
+      "jd_position": "前端开发工程师",
+      "jd_company": "美团"
+    },
+    {
+      "pair_id": "edu_007",
+      "category": "学历_双非_前端",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "education": 70,
+        "overall": "medium-low"
+      },
+      "expected_match_level": "medium-low",
+      "jd_position": "前端开发工程师",
+      "jd_company": "美团"
+    },
+    {
+      "pair_id": "edu_008",
+      "category": "学历_985_产品",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "education": 100,
+        "overall": "high"
+      },
+      "expected_match_level": "high",
+      "jd_position": "产品经理",
+      "jd_company": "腾讯"
+    },
+    {
+      "pair_id": "edu_009",
+      "category": "学历_双非_产品",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "education": 70,
+        "overall": "medium-low"
+      },
+      "expected_match_level": "medium-low",
+      "jd_position": "产品经理",
+      "jd_company": "腾讯"
+    },
+    {
+      "pair_id": "edu_010",
+      "category": "学历_211_运营",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "education": 85,
+        "overall": "medium"
+      },
+      "expected_match_level": "medium",
+      "jd_position": "用户运营",
+      "jd_company": "小红书"
+    },
+    {
+      "pair_id": "int_001",
+      "category": "实习_大厂_AI",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "internship": 100,
+        "overall": "high"
+      },
+      "expected_match_level": "high",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "int_002",
+      "category": "实习_独角兽_AI",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "internship": 85,
+        "overall": "medium-high"
+      },
+      "expected_match_level": "medium-high",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "int_003",
+      "category": "实习_无_AI",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "internship": 20,
+        "overall": "low"
+      },
+      "expected_match_level": "low",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "int_004",
+      "category": "实习_大厂_前端",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "internship": 100,
+        "overall": "high"
+      },
+      "expected_match_level": "high",
+      "jd_position": "前端开发工程师",
+      "jd_company": "美团"
+    },
+    {
+      "pair_id": "int_005",
+      "category": "实习_无_前端",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "internship": 20,
+        "overall": "low"
+      },
+      "expected_match_level": "low",
+      "jd_position": "前端开发工程师",
+      "jd_company": "美团"
+    },
+    {
+      "pair_id": "int_006",
+      "category": "实习_大厂_产品",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "internship": 100,
+        "overall": "high"
+      },
+      "expected_match_level": "high",
+      "jd_position": "产品经理",
+      "jd_company": "腾讯"
+    },
+    {
+      "pair_id": "int_007",
+      "category": "实习_无_产品",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "internship": 20,
+        "overall": "low"
+      },
+      "expected_match_level": "low",
+      "jd_position": "产品经理",
+      "jd_company": "腾讯"
+    },
+    {
+      "pair_id": "int_008",
+      "category": "实习_无_运营",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "internship": 20,
+        "overall": "low"
+      },
+      "expected_match_level": "low",
+      "jd_position": "用户运营",
+      "jd_company": "小红书"
+    },
+    {
+      "pair_id": "prj_001",
+      "category": "项目_完整_AI",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "project": 100,
+        "overall": "high"
+      },
+      "expected_match_level": "high",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "prj_002",
+      "category": "项目_课程_AI",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "project": 60,
+        "overall": "medium-low"
+      },
+      "expected_match_level": "medium-low",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "prj_003",
+      "category": "项目_想法_AI",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "project": 30,
+        "overall": "low"
+      },
+      "expected_match_level": "low",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "prj_004",
+      "category": "项目_完整_前端",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "project": 100,
+        "overall": "high"
+      },
+      "expected_match_level": "high",
+      "jd_position": "前端开发工程师",
+      "jd_company": "美团"
+    },
+    {
+      "pair_id": "soft_001",
+      "category": "软技能_高能力",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "learning_ability": 100,
+        "execution": 100,
+        "data_awareness": 100
+      },
+      "expected_match_level": "unknown",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "soft_002",
+      "category": "软技能_低能力",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "learning_ability": 50,
+        "execution": 60,
+        "data_awareness": 50
+      },
+      "expected_match_level": "unknown",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "soft_003",
+      "category": "软技能_无数据",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {
+        "data_awareness": 40
+      },
+      "expected_match_level": "unknown",
+      "jd_position": "产品经理",
+      "jd_company": "腾讯"
+    },
+    {
+      "pair_id": "pln_001",
+      "category": "润色_关键词缺失",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {},
+      "expected_match_level": "unknown",
+      "jd_position": "AI算法工程师",
+      "jd_company": "字节跳动"
+    },
+    {
+      "pair_id": "pln_002",
+      "category": "润色_技术术语",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {},
+      "expected_match_level": "unknown",
+      "jd_position": "产品经理",
+      "jd_company": "腾讯"
+    },
+    {
+      "pair_id": "pln_003",
+      "category": "润色_被动表达",
+      "predicted": {
+        "final_score": 53.959999999999994,
+        "match_level": "medium",
+        "hard_scores": {
+          "internship": 20.0,
+          "project": 0.0,
+          "technical_practice": 70.0,
+          "education": 50.0,
+          "major": 40.0,
+          "gpa": 40.0,
+          "english": 40.0,
+          "stability": 40.0
+        },
+        "soft_scores": {
+          "learning_ability": 70,
+          "execution": 70,
+          "communication": 70,
+          "data_awareness": 70,
+          "stability": 70,
+          "adaptability": 70,
+          "resume_logic": 60
+        },
+        "total_hard": 31.7,
+        "total_soft": 68.8
+      },
+      "ground_truth": {},
+      "expected_match_level": "unknown",
+      "jd_position": "用户运营",
+      "jd_company": "小红书"
+    }
+  ],
+  "metrics": {
+    "total_tests": 28,
+    "score_errors": [],
+    "match_level_accuracy": 0.10714285714285714,
+    "category_metrics": {},
+    "dimension_mae": {
+      "internship": 38.125,
+      "project": 72.5,
+      "education": 37.0,
+      "learning_ability": 25.0,
+      "execution": 20.0,
+      "data_awareness": 26.666666666666668
+    }
+  }
+}

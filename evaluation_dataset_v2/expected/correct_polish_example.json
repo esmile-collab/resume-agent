@@ -1,0 +1,115 @@
+{
+  "original": "## 实习经历\n\n### 字节跳动 | 算法实习生\n**2024.07 - 2024.12**\n- 负责深度学习模型的训练和优化工作\n- 参与模型的性能调优和部署流程\n- 使用 PyTorch 实现模型代码，进行实验验证\n\n## 项目经历\n\n### 智能问答助手\n**2024.03 - 2024.05**\n- 使用 API 开发了问答应用\n- 实现了多轮对话功能\n- 完成了系统测试和部署",
+  "identification": {
+    "resume_analysis": {
+      "jd_keywords_found": [
+        "深度学习",
+        "PyTorch",
+        "模型训练",
+        "Python"
+      ],
+      "jd_keywords_missing": [
+        "LLM",
+        "大语言模型",
+        "SFT",
+        "微调",
+        "对话系统",
+        "NLP",
+        "Transformer",
+        "BERT",
+        "GPT"
+      ],
+      "sections_analyzed": [
+        {
+          "section_id": "internship_bytedance_01",
+          "section_type": "实习经历",
+          "title": "字节跳动 | 算法实习生",
+          "issues": [
+            {
+              "type": "keyword_missing",
+              "severity": "HIGH",
+              "description": "JD核心词'LLM/大语言模型'完全缺失",
+              "current_content": "负责深度学习模型的训练和优化工作",
+              "can_polish": true,
+              "polish_strategy": "将'深度学习模型'改为'深度学习/大语言模型'（LLM是深度学习的子集，不算编造）"
+            },
+            {
+              "type": "expression_passive",
+              "severity": "MEDIUM",
+              "description": "使用'负责'开头，表达较被动",
+              "current_content": "负责深度学习模型的训练和优化工作",
+              "can_polish": true,
+              "polish_strategy": "改为'主导深度学习/大语言模型的训练优化'"
+            }
+          ]
+        },
+        {
+          "section_id": "project_qa_01",
+          "section_type": "项目经历",
+          "title": "智能问答助手",
+          "issues": [
+            {
+              "type": "keyword_missing",
+              "severity": "HIGH",
+              "description": "JD核心词'对话系统'完全缺失",
+              "current_content": "使用API开发问答应用",
+              "can_polish": true,
+              "polish_strategy": "将'问答应用'改为'对话问答应用'或'智能问答系统'"
+            },
+            {
+              "type": "star_incomplete",
+              "severity": "HIGH",
+              "description": "缺少STAR结构的背景、任务、结果要素",
+              "current_content": "使用API开发了问答应用\n实现了多轮对话功能\n完成了系统测试和部署",
+              "can_polish": true,
+              "polish_strategy": "重新组织为STAR结构，添加定性描述但不编造数据"
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "total_issues": 4,
+        "high_priority": 2,
+        "medium_priority": 2,
+        "can_polish_without_fabrication": true
+      }
+    }
+  },
+  "polished": "## 实习经历\n\n### 字节跳动 | 算法实习生（深度学习/大模型方向）\n**2024.07 - 2024.12**\n- **主导**深度学习/大语言模型的训练优化和性能调优工作\n- 使用 **PyTorch** 实现模型代码，完成实验验证和部署流程\n- 参与模型全流程开发，从数据处理到模型上线\n\n## 项目经历\n\n### 智能对话问答助手\n**2024.03 - 2024.05**\n**背景**：针对智能问答场景，开发对话应用\n**任务**：基于API构建支持多轮对话的问答系统\n**行动**：调用API接口，实现问答逻辑、多轮对话管理和功能测试\n**结果**：成功完成开发并部署上线",
+  "changes_log": [
+    {
+      "section": "实习标题",
+      "before": "字节跳动 | 算法实习生",
+      "after": "字节跳动 | 算法实习生（深度学习/大模型方向）",
+      "type": "关键词强化",
+      "reason": "添加'大模型'，因为'深度学习'包含大模型，且JD要求大模型经验。不算编造，只是明确方向。"
+    },
+    {
+      "section": "实习描述-第1条",
+      "before": "负责深度学习模型的训练和优化工作",
+      "after": "主导深度学习/大语言的训练优化和性能调优工作",
+      "type": "表达优化",
+      "reason": "将'负责'改为'主导'，'模型'明确为'大语言模型'（LLM是深度学习子集），添加'性能调优'（后文已提到）。"
+    },
+    {
+      "section": "项目标题",
+      "before": "智能问答助手",
+      "after": "智能对话问答助手",
+      "type": "关键词强化",
+      "reason": "添加'对话'，匹配JD的'对话系统'要求。原内容提到'多轮对话'，所以不算编造。"
+    },
+    {
+      "section": "项目描述",
+      "before": "使用API开发了问答应用\n实现了多轮对话功能\n完成了系统测试和部署",
+      "after": "**背景**：针对智能问答场景，开发对话应用\n**任务**：基于API构建支持多轮对话的问答系统\n**行动**：调用API接口，实现问答逻辑、多轮对话管理和功能测试\n**结果**：成功完成开发并部署上线",
+      "type": "STAR结构重组",
+      "reason": "将原有内容重新组织为STAR结构，不添加新事实，只是优化逻辑呈现。"
+    }
+  ],
+  "fact_check": {
+    "added_technologies": [],
+    "added_projects": [],
+    "added_roles": [],
+    "fabricated_data": false
+  }
+}

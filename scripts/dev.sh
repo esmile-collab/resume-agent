@@ -1,4 +1,8 @@
 #!/bin/bash
+# Input: 本地开发者与 shell 环境。
+# Output: 启动开发态工作流。
+# Pos: 开发辅助脚本。
+# Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 README。
 # Dev - 开发模式启动
 
 set -e

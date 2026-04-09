@@ -1,0 +1,246 @@
+[
+  {
+    "pair_id": "edu_001",
+    "category": "学历_985_AI",
+    "ground_truth_labels": {
+      "education": 100,
+      "overall": "high"
+    },
+    "test_focus": "测试学历评分是否正确（985=100, 211=85, 双非=70）"
+  },
+  {
+    "pair_id": "edu_002",
+    "category": "学历_211_AI",
+    "ground_truth_labels": {
+      "education": 85,
+      "overall": "medium"
+    },
+    "test_focus": "测试学历评分是否正确（985=100, 211=85, 双非=70）"
+  },
+  {
+    "pair_id": "edu_003",
+    "category": "学历_双非_AI",
+    "ground_truth_labels": {
+      "education": 70,
+      "overall": "medium-low"
+    },
+    "test_focus": "测试学历评分是否正确（985=100, 211=85, 双非=70）"
+  },
+  {
+    "pair_id": "edu_004",
+    "category": "学历_海外Top_AI",
+    "ground_truth_labels": {
+      "education": 105,
+      "overall": "high"
+    },
+    "test_focus": "测试学历评分是否正确（985=100, 211=85, 双非=70）"
+  },
+  {
+    "pair_id": "edu_005",
+    "category": "学历_985_前端",
+    "ground_truth_labels": {
+      "education": 100,
+      "overall": "high"
+    },
+    "test_focus": "测试学历评分是否正确（985=100, 211=85, 双非=70）"
+  },
+  {
+    "pair_id": "edu_006",
+    "category": "学历_211_前端",
+    "ground_truth_labels": {
+      "education": 85,
+      "overall": "medium"
+    },
+    "test_focus": "测试学历评分是否正确（985=100, 211=85, 双非=70）"
+  },
+  {
+    "pair_id": "edu_007",
+    "category": "学历_双非_前端",
+    "ground_truth_labels": {
+      "education": 70,
+      "overall": "medium-low"
+    },
+    "test_focus": "测试学历评分是否正确（985=100, 211=85, 双非=70）"
+  },
+  {
+    "pair_id": "edu_008",
+    "category": "学历_985_产品",
+    "ground_truth_labels": {
+      "education": 100,
+      "overall": "high"
+    },
+    "test_focus": "测试学历评分是否正确（985=100, 211=85, 双非=70）"
+  },
+  {
+    "pair_id": "edu_009",
+    "category": "学历_双非_产品",
+    "ground_truth_labels": {
+      "education": 70,
+      "overall": "medium-low"
+    },
+    "test_focus": "测试学历评分是否正确（985=100, 211=85, 双非=70）"
+  },
+  {
+    "pair_id": "edu_010",
+    "category": "学历_211_运营",
+    "ground_truth_labels": {
+      "education": 85,
+      "overall": "medium"
+    },
+    "test_focus": "测试学历评分是否正确（985=100, 211=85, 双非=70）"
+  },
+  {
+    "pair_id": "int_001",
+    "category": "实习_大厂_AI",
+    "ground_truth_labels": {
+      "internship": 100,
+      "overall": "high"
+    },
+    "test_focus": "测试实习评分是否按公司层级正确计算"
+  },
+  {
+    "pair_id": "int_002",
+    "category": "实习_独角兽_AI",
+    "ground_truth_labels": {
+      "internship": 85,
+      "overall": "medium-high"
+    },
+    "test_focus": "测试实习评分是否按公司层级正确计算"
+  },
+  {
+    "pair_id": "int_003",
+    "category": "实习_无_AI",
+    "ground_truth_labels": {
+      "internship": 20,
+      "overall": "low"
+    },
+    "test_focus": "测试实习评分是否按公司层级正确计算"
+  },
+  {
+    "pair_id": "int_004",
+    "category": "实习_大厂_前端",
+    "ground_truth_labels": {
+      "internship": 100,
+      "overall": "high"
+    },
+    "test_focus": "测试实习评分是否按公司层级正确计算"
+  },
+  {
+    "pair_id": "int_005",
+    "category": "实习_无_前端",
+    "ground_truth_labels": {
+      "internship": 20,
+      "overall": "low"
+    },
+    "test_focus": "测试实习评分是否按公司层级正确计算"
+  },
+  {
+    "pair_id": "int_006",
+    "category": "实习_大厂_产品",
+    "ground_truth_labels": {
+      "internship": 100,
+      "overall": "high"
+    },
+    "test_focus": "测试实习评分是否按公司层级正确计算"
+  },
+  {
+    "pair_id": "int_007",
+    "category": "实习_无_产品",
+    "ground_truth_labels": {
+      "internship": 20,
+      "overall": "low"
+    },
+    "test_focus": "测试实习评分是否按公司层级正确计算"
+  },
+  {
+    "pair_id": "int_008",
+    "category": "实习_无_运营",
+    "ground_truth_labels": {
+      "internship": 20,
+      "overall": "low"
+    },
+    "test_focus": "测试实习评分是否按公司层级正确计算"
+  },
+  {
+    "pair_id": "prj_001",
+    "category": "项目_完整_AI",
+    "ground_truth_labels": {
+      "project": 100,
+      "overall": "high"
+    },
+    "test_focus": "测试项目评分（完整=100, 课程=60, 想法=30）"
+  },
+  {
+    "pair_id": "prj_002",
+    "category": "项目_课程_AI",
+    "ground_truth_labels": {
+      "project": 60,
+      "overall": "medium-low"
+    },
+    "test_focus": "测试项目评分（完整=100, 课程=60, 想法=30）"
+  },
+  {
+    "pair_id": "prj_003",
+    "category": "项目_想法_AI",
+    "ground_truth_labels": {
+      "project": 30,
+      "overall": "low"
+    },
+    "test_focus": "测试项目评分（完整=100, 课程=60, 想法=30）"
+  },
+  {
+    "pair_id": "prj_004",
+    "category": "项目_完整_前端",
+    "ground_truth_labels": {
+      "project": 100,
+      "overall": "high"
+    },
+    "test_focus": "测试项目评分（完整=100, 课程=60, 想法=30）"
+  },
+  {
+    "pair_id": "soft_001",
+    "category": "软技能_高能力",
+    "ground_truth_labels": {
+      "learning_ability": 100,
+      "execution": 100,
+      "data_awareness": 100
+    },
+    "test_focus": "测试软性指标评分的准确性"
+  },
+  {
+    "pair_id": "soft_002",
+    "category": "软技能_低能力",
+    "ground_truth_labels": {
+      "learning_ability": 50,
+      "execution": 60,
+      "data_awareness": 50
+    },
+    "test_focus": "测试软性指标评分的准确性"
+  },
+  {
+    "pair_id": "soft_003",
+    "category": "软技能_无数据",
+    "ground_truth_labels": {
+      "data_awareness": 40
+    },
+    "test_focus": "测试软性指标评分的准确性"
+  },
+  {
+    "pair_id": "pln_001",
+    "category": "润色_关键词缺失",
+    "ground_truth_labels": {},
+    "test_focus": "测试润色功能是否正确识别问题并进行改写"
+  },
+  {
+    "pair_id": "pln_002",
+    "category": "润色_技术术语",
+    "ground_truth_labels": {},
+    "test_focus": "测试润色功能是否正确识别问题并进行改写"
+  },
+  {
+    "pair_id": "pln_003",
+    "category": "润色_被动表达",
+    "ground_truth_labels": {},
+    "test_focus": "测试润色功能是否正确识别问题并进行改写"
+  }
+]

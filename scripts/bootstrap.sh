@@ -1,4 +1,8 @@
 #!/bin/bash
+# Input: 开发者手动执行和本地环境初始化流程。
+# Output: 搭建基础开发环境。
+# Pos: 环境初始化脚本。
+# Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 README。
 # Bootstrap - 初始化开发环境
 
 set -e
