@@ -8,6 +8,64 @@ Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 R
 
 这是一个面向真实投递场景的会话式简历工作台。当前仓库的目标不是做“聊天玩具”，而是提供一个能本地跑通、能部署、能演示完整主流程的 demo：上传基础简历与 JD，沉淀求职方向资产，完成评分、生成、润色、导出，并把每轮行为留痕到会话和产物版本里。
 
+## 3 分钟上手
+
+### 运行环境
+
+- Python 3.11+
+- Node.js 20+
+- `npm`
+
+### 一键启动
+
+```bash
+cp .env.example .env
+./start.sh
+```
+
+启动后：
+
+- 前端工作台：`http://127.0.0.1:5173`
+- 后端 API：`http://127.0.0.1:8000`
+
+### 常用检查
+
+```bash
+python -m pytest tests/acceptance tests/unit/test_fractal_docs.py
+cd frontend && npm run build
+python scripts/fractal_docs.py --check
+```
+
+## 当前能做什么
+
+- 创建会话并恢复历史会话
+- 上传基础简历、JD、PDF、DOCX
+- 沉淀 `profile / experiences / tracks`
+- 管理 `JD Matches / Career Dashboard`
+- 执行简历评分、生成、润色
+- 查看 artifact 版本并导出 `PDF / DOCX`
+- 查看 snapshot、trace 和会话留痕
+
+## 仓库速览
+
+- `frontend/`: React 工作台
+- `src/api/`: FastAPI HTTP 入口
+- `src/agent/`: planner / memory / runtime / tools 主链
+- `src/services/`: JD 分析、简历解析、patch、导出
+- `src/scoring/`: 评分引擎
+- `src/db/`: SQLite schema 与 CRUD
+- `scripts/`: 启动、评测、文档守卫
+- `tests/`: acceptance / unit / e2e / integration
+
+## 先看这些文档
+
+- [docs/README.md](docs/README.md)
+- [docs/项目运行说明.md](docs/%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C%E8%AF%B4%E6%98%8E.md)
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
+- [docs/product/MVP_PRD_Resume_Fit_Agent.md](docs/product/MVP_PRD_Resume_Fit_Agent.md)
+- [docs/product/UI交互设计.md](docs/product/UI%E4%BA%A4%E4%BA%92%E8%AE%BE%E8%AE%A1.md)
+- [docs/technical/ARCHITECTURE.md](docs/technical/ARCHITECTURE.md)
+
 ## 当前系统地图
 
 | 层级 | 目录 | 作用 |
@@ -32,13 +90,13 @@ Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 R
 
 ## 当前主文档
 
-- [docs/README.md](/Users/cyx/program_coding/简历%20agent/docs/README.md)
-- [docs/项目运行说明.md](/Users/cyx/program_coding/简历%20agent/docs/项目运行说明.md)
-- [docs/DEPLOYMENT.md](/Users/cyx/program_coding/简历%20agent/docs/DEPLOYMENT.md)
-- [docs/product/MVP_PRD_Resume_Fit_Agent.md](/Users/cyx/program_coding/简历%20agent/docs/product/MVP_PRD_Resume_Fit_Agent.md)
-- [docs/product/UI交互设计.md](/Users/cyx/program_coding/简历%20agent/docs/product/UI交互设计.md)
-- [docs/product/评分系统设计_v2_混合评分_校招版_v2.1.md](/Users/cyx/program_coding/简历%20agent/docs/product/评分系统设计_v2_混合评分_校招版_v2.1.md)
-- [docs/technical/ARCHITECTURE.md](/Users/cyx/program_coding/简历%20agent/docs/technical/ARCHITECTURE.md)
+- [docs/README.md](docs/README.md)
+- [docs/项目运行说明.md](docs/%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C%E8%AF%B4%E6%98%8E.md)
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
+- [docs/product/MVP_PRD_Resume_Fit_Agent.md](docs/product/MVP_PRD_Resume_Fit_Agent.md)
+- [docs/product/UI交互设计.md](docs/product/UI%E4%BA%A4%E4%BA%92%E8%AE%BE%E8%AE%A1.md)
+- [docs/product/评分系统设计_v2_混合评分_校招版_v2.1.md](docs/product/%E8%AF%84%E5%88%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1_v2_%E6%B7%B7%E5%90%88%E8%AF%84%E5%88%86_%E6%A0%A1%E6%8B%9B%E7%89%88_v2.1.md)
+- [docs/technical/ARCHITECTURE.md](docs/technical/ARCHITECTURE.md)
 
 ## 分形文档规则
 
@@ -55,25 +113,3 @@ Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 R
 - `JSON`、图片、数据集、依赖目录等无法安全内联注释的文件，不强行写文件头，由所属目录 `README.md` 承担说明。
 - `docs/archive/` 与 `docs/reference/` 保存历史/参考材料，不再作为当前开发入口。
 - `resume-score-skills/`、评测数据集、缓存目录和构建产物不纳入本轮分形文档强约束。
-
-## 运行与检查
-
-本地启动：
-
-```bash
-cp .env.example .env
-./start.sh
-```
-
-文档同步：
-
-```bash
-python scripts/fractal_docs.py
-python scripts/fractal_docs.py --check
-```
-
-主链回归：
-
-```bash
-python -m pytest tests/acceptance tests/unit/test_fractal_docs.py
-```
