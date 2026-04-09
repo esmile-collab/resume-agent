@@ -1,115 +1,214 @@
-<!--
-Input: 当前仓库结构、现行运行链路与核心工程约束。
-Output: 输出仓库级全局地图、主文档入口和维护规则。
-Pos: 根目录总地图，是整个分形文档体系的第一层。
-Rule: 一旦我被更新，务必同步更新本文件头注释与所属目录 README。
--->
-# Resume Agent
+<p align="center">
+  <strong>Resume Agent</strong>
+</p>
 
-这是一个面向真实投递场景的会话式简历工作台。当前仓库的目标不是做“聊天玩具”，而是提供一个能本地跑通、能部署、能演示完整主流程的 demo：上传基础简历与 JD，沉淀求职方向资产，完成评分、生成、润色、导出，并把每轮行为留痕到会话和产物版本里。
+<p align="center">
+  <em>A conversational workspace for resume optimization — score, generate, polish, and export with full traceability.</em>
+</p>
 
-## 3 分钟上手
+<p align="center">
+  <!-- placeholders — replace <hash> with real badge URLs after CI/coverage is wired -->
+  <img src="https://img.shields.io/badge/Python-3.11+-blue.svg" alt="Python 3.11+" />
+  <img src="https://img.shields.io/badge/React-18-61dafb.svg" alt="React 18" />
+  <img src="https://img.shields.io/badge/FastAPI-0.110+-009688.svg" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT" />
+</p>
 
-### 运行环境
+---
+
+## Overview
+
+**Resume Agent** is an end-to-end resume optimization platform built around a session-based conversational workflow. Unlike simple chatbots, it is designed as a deployable system that preserves every decision, artifact version, and scoring trace throughout the job application pipeline.
+
+Upload your base resume and target JDs. The system analyzes gaps, scores fit, generates tailored versions, polishes expression, and exports — all within a single workspace backed by structured memory and full audit trails.
+
+## Features
+
+- **Session Management** — Create, restore, and switch between job-application sessions with full state persistence.
+- **Resume Scoring** — Hybrid scoring engine combining hard metrics (keywords, structure, experience density) with LLM-powered soft evaluation. Supports JD implicit-requirement inference.
+- **Smart Generation** — Generate JD-aligned resume versions while preserving factual accuracy.
+- **Block-Level Polishing** — Targeted expression improvements with change tracking and diff visualization.
+- **Multi-Format Export** — Export resumes as PDF or DOCX with versioned artifacts.
+- **Structured Memory** — Career profile, experience entries, and job tracks are stored as queryable structured data, not raw conversation history.
+- **Full Traceability** — Every agent action is logged as an observable trace with snapshot diffs and artifact versioning.
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Frontend (React)                      │
+│   ChatPanel · ScorePanel · MemoryPanel · ArtifactPanel  │
+└─────────────────────────┬───────────────────────────────┘
+                          │ REST API
+┌─────────────────────────▼───────────────────────────────┐
+│                  API Layer (FastAPI)                      │
+│              Sessions · Messages · Artifacts              │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+┌─────────────────────────▼───────────────────────────────┐
+│                   Agent Runtime                           │
+│   Planner → Memory → Tool Registry → Runtime Pipeline    │
+└──┬──────────┬──────────┬──────────┬──────────┬──────────┘
+   │          │          │          │          │
+┌──▼──┐  ┌───▼───┐ ┌────▼───┐ ┌───▼───┐ ┌───▼────┐
+│Scoring│  │ JD    │ │Resume  │ │Polish │ │Export  │
+│Engine │  │Analyzer│ │Parser  │ │Patcher│ │Service │
+└──┬───┘  └───┬───┘ └────┬───┘ └───┬───┘ └───┬────┘
+   │          │          │          │          │
+┌──▼──────────▼──────────▼──────────▼──────────▼────────┐
+│               Persistence (SQLite)                      │
+│         Sessions · Artifacts · Snapshots                │
+└────────────────────────────────────────────────────────┘
+```
+
+## Quick Start
+
+### Prerequisites
 
 - Python 3.11+
 - Node.js 20+
-- `npm`
+- npm
 
-### 一键启动
+### Install & Run
 
 ```bash
+# Clone the repository
+git clone git@github.com:esmile-collab/resume-agent.git
+cd resume-agent
+
+# Configure environment
 cp .env.example .env
+# Edit .env — set your LLM API key (Anthropic or OpenAI)
+
+# One-click start (installs deps, inits DB, launches both services)
 ./start.sh
 ```
 
-启动后：
+Services will be available at:
 
-- 前端工作台：`http://127.0.0.1:5173`
-- 后端 API：`http://127.0.0.1:8000`
+| Service  | URL                              |
+| -------- | -------------------------------- |
+| Frontend | http://127.0.0.1:5173            |
+| Backend  | http://127.0.0.1:8000            |
+| API Docs | http://127.0.0.1:8000/docs       |
 
-### 常用检查
+### Selective Start
 
 ```bash
-python -m pytest tests/acceptance tests/unit/test_fractal_docs.py
-cd frontend && npm run build
-python scripts/fractal_docs.py --check
+./start.sh backend    # API server only
+./start.sh frontend   # Dev server only
 ```
 
-## 当前能做什么
+### Docker
 
-- 创建会话并恢复历史会话
-- 上传基础简历、JD、PDF、DOCX
-- 沉淀 `profile / experiences / tracks`
-- 管理 `JD Matches / Career Dashboard`
-- 执行简历评分、生成、润色
-- 查看 artifact 版本并导出 `PDF / DOCX`
-- 查看 snapshot、trace 和会话留痕
+```bash
+docker build -t resume-agent .
+docker run -p 8000:8000 \
+  -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
+  -v resume-data:/app/.data \
+  resume-agent
+```
 
-## 仓库速览
+## Project Structure
 
-- `frontend/`: React 工作台
-- `src/api/`: FastAPI HTTP 入口
-- `src/agent/`: planner / memory / runtime / tools 主链
-- `src/services/`: JD 分析、简历解析、patch、导出
-- `src/scoring/`: 评分引擎
-- `src/db/`: SQLite schema 与 CRUD
-- `scripts/`: 启动、评测、文档守卫
-- `tests/`: acceptance / unit / e2e / integration
+```
+resume-agent/
+├── frontend/                 # React workspace (Vite + TypeScript)
+│   └── src/
+│       ├── components/       # UI panels: Chat, Score, Memory, Artifact, etc.
+│       ├── api/              # Frontend API client
+│       └── types.ts          # Shared TypeScript types
+├── src/                      # Backend Python package
+│   ├── api/                  # FastAPI HTTP layer & endpoints
+│   ├── agent/                # Core runtime: planner, memory, tools
+│   ├── services/             # Domain logic: JD analysis, parsing, polish, export
+│   ├── scoring/              # Hybrid scoring engine
+│   ├── db/                   # SQLite schema & CRUD repositories
+│   ├── observability/        # Long-context compression & trace logging
+│   ├── cli/                  # Click-based CLI
+│   └── tools/                # Tool implementations
+├── tests/                    # Acceptance, unit, integration & e2e tests
+├── docs/                     # Product & technical documentation
+├── scripts/                  # Bootstrap, evaluation, regression & doc guards
+├── config/                   # Default configuration (YAML)
+├── Dockerfile                # Production container image
+├── render.yaml               # Render.com deployment spec
+└── pyproject.toml            # Python package manifest
+```
 
-## 先看这些文档
+## Workflow
 
-- [docs/README.md](docs/README.md)
-- [docs/项目运行说明.md](docs/%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C%E8%AF%B4%E6%98%8E.md)
-- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
-- [docs/product/MVP_PRD_Resume_Fit_Agent.md](docs/product/MVP_PRD_Resume_Fit_Agent.md)
-- [docs/product/UI交互设计.md](docs/product/UI%E4%BA%A4%E4%BA%92%E8%AE%BE%E8%AE%A1.md)
-- [docs/technical/ARCHITECTURE.md](docs/technical/ARCHITECTURE.md)
+1. **Create Session** — Start a workspace, optionally attaching a base resume.
+2. **Build Profile** — System extracts and stores structured profile, experiences, and career tracks.
+3. **Ingest JDs** — Upload job descriptions; system analyzes and archives them per track.
+4. **Score** — Run fit analysis to get a detailed scorecard with gap identification.
+5. **Generate / Polish** — Produce JD-targeted resume versions with tracked changes.
+6. **Export** — Download polished resumes as PDF or DOCX with full version history.
+7. **Review** — Browse snapshots, execution traces, and artifact diffs at any point.
 
-## 当前系统地图
+## Development
 
-| 层级 | 目录 | 作用 |
-| --- | --- | --- |
-| 入口层 | `frontend/` | React 工作台，负责会话 UI、方向切换、产物编辑与运行轨迹展示。 |
-| 入口层 | `src/api/` | FastAPI session/message API 和管理端点。 |
-| 运行时 | `src/agent/` | planner、memory、tool registry、runtime 主链。 |
-| 领域层 | `src/services/` | JD 分析、简历解析、patch 生成、导出。 |
-| 评分层 | `src/scoring/` | 混合评分引擎与评分报告模型。 |
-| 持久化层 | `src/db/` | SQLite schema 与 CRUD 仓储。 |
-| 观测层 | `src/observability/` | 长对话压缩与摘要落盘。 |
-| 工程层 | `scripts/`、`tests/`、`config/` | 启动、回归、文档守卫、默认配置。 |
+### Environment Setup
 
-## 当前产品主流程
+```bash
+# Backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
 
-1. 用户创建 session，并可附带基础简历。
-2. 用户补充背景信息，系统写入 profile、experience、track 等结构化 memory。
-3. 用户上传 JD，系统把 JD 入库并归档到对应 track。
-4. 用户触发评分，系统生成 score report artifact。
-5. 用户触发生成或润色，系统产出新的简历版本并支持导出。
-6. 前端随时查看 snapshot、trace、artifact diff 与历史会话。
+# Frontend
+cd frontend && npm install
+```
 
-## 当前主文档
+### Running Tests
 
-- [docs/README.md](docs/README.md)
-- [docs/项目运行说明.md](docs/%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C%E8%AF%B4%E6%98%8E.md)
-- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
-- [docs/product/MVP_PRD_Resume_Fit_Agent.md](docs/product/MVP_PRD_Resume_Fit_Agent.md)
-- [docs/product/UI交互设计.md](docs/product/UI%E4%BA%A4%E4%BA%92%E8%AE%BE%E8%AE%A1.md)
-- [docs/product/评分系统设计_v2_混合评分_校招版_v2.1.md](docs/product/%E8%AF%84%E5%88%86%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1_v2_%E6%B7%B7%E5%90%88%E8%AF%84%E5%88%86_%E6%A0%A1%E6%8B%9B%E7%89%88_v2.1.md)
-- [docs/technical/ARCHITECTURE.md](docs/technical/ARCHITECTURE.md)
+```bash
+# All tests
+python -m pytest tests/
 
-## 分形文档规则
+# Acceptance + unit
+python -m pytest tests/acceptance tests/unit/
 
-任何功能、架构、写法更新，都必须在工作结束后同步更新相关目录的子文档和文件头注释。
+# With coverage
+python -m pytest --cov=src --cov-report=html tests/
+```
 
-当前文档体系分三层：
+### Linting & Formatting
 
-1. 根目录 `README.md`：全局地图，只描述当前系统边界、主文档和总规则。
-2. 每个受管目录的 `README.md`：3 行内说明本目录定位、边界、维护要求，并列出文件清单。
-3. 每个可注释文件的头部声明：`Input / Output / Pos / Rule`，说明依赖、对外输出、局部地位和同步义务。
+```bash
+python -m black src/ tests/
+python -m mypy src/
+```
 
-说明：
+### Build Frontend
 
-- `JSON`、图片、数据集、依赖目录等无法安全内联注释的文件，不强行写文件头，由所属目录 `README.md` 承担说明。
-- `docs/archive/` 与 `docs/reference/` 保存历史/参考材料，不再作为当前开发入口。
-- `resume-score-skills/`、评测数据集、缓存目录和构建产物不纳入本轮分形文档强约束。
+```bash
+cd frontend && npm run build
+```
+
+## Documentation
+
+| Document | Description |
+| -------- | ----------- |
+| [Product PRD](docs/product/MVP_PRD_Resume_Fit_Agent.md) | Product requirements & scope |
+| [Architecture](docs/technical/ARCHITECTURE.md) | System design & module responsibilities |
+| [Scoring System](docs/product/评分系统设计_v2_混合评分_校招版_v2.1.md) | Scoring engine design & methodology |
+| [Deployment Guide](docs/DEPLOYMENT.md) | Production deployment instructions |
+| [UI Design](docs/product/UI交互设计.md) | Interface interaction flows |
+
+## Tech Stack
+
+| Layer | Technology |
+| ----- | ---------- |
+| Frontend | React 18 · TypeScript · Vite |
+| Backend | Python 3.11 · FastAPI · Uvicorn |
+| Database | SQLite |
+| LLM | Anthropic Claude / OpenAI GPT |
+| Document | pypdf · python-docx · reportlab |
+| CLI | Click |
+| Testing | pytest · pytest-cov · pytest-asyncio |
+| Deployment | Docker · Render.com |
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
