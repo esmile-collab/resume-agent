@@ -7,11 +7,14 @@
 </p>
 
 <p align="center">
-  <!-- placeholders — replace <hash> with real badge URLs after CI/coverage is wired -->
   <img src="https://img.shields.io/badge/Python-3.11+-blue.svg" alt="Python 3.11+" />
   <img src="https://img.shields.io/badge/React-18-61dafb.svg" alt="React 18" />
   <img src="https://img.shields.io/badge/FastAPI-0.110+-009688.svg" alt="FastAPI" />
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT" />
+</p>
+
+<p align="center">
+  <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a>
 </p>
 
 ---
@@ -21,6 +24,11 @@
 **Resume Agent** is an end-to-end resume optimization platform built around a session-based conversational workflow. Unlike simple chatbots, it is designed as a deployable system that preserves every decision, artifact version, and scoring trace throughout the job application pipeline.
 
 Upload your base resume and target JDs. The system analyzes gaps, scores fit, generates tailored versions, polishes expression, and exports — all within a single workspace backed by structured memory and full audit trails.
+
+## Who It's For
+
+- Job seekers applying to multiple roles who want a repeatable, inspectable process instead of one-shot chat answers.
+- Developers looking for a reference on how an agent workflow — with scoring, structured memory, and full traceability — can be built as a deployable system.
 
 ## Features
 
