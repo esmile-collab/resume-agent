@@ -27,10 +27,9 @@ Upload your base resume and target JDs. The system analyzes gaps, scores fit, ge
 
 ## Architecture
 
-![System architecture: execution, evaluation, recorded findings, and revision loops](docs/architecture.en.svg)
+![System architecture: module responsibilities, interfaces, and feedback](docs/architecture.en.svg)
 
 [Diagram sources, implementation boundaries, and maintenance](docs/architecture.md) (Chinese)
-
 
 ## Who It's For
 
