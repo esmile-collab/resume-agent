@@ -27,7 +27,7 @@ Upload your base resume and target JDs. The system analyzes gaps, scores fit, ge
 
 ## Architecture
 
-![System architecture: module responsibilities, interfaces, and feedback](docs/architecture.en.svg)
+![System architecture: module collaboration and feedback](docs/architecture.en.svg)
 
 [Diagram sources, implementation boundaries, and maintenance](docs/architecture.md) (Chinese)
 

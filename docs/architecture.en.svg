@@ -1,102 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="1040" viewBox="0 0 960 1040" role="img" aria-labelledby="title desc" lang="en">
-<title id="title">Resume Agent</title><desc id="desc">Separate session execution, domain tools, memory, and artifact access</desc>
-<metadata>Module collaboration diagram. Source revision: 79529ef8610aa32b39e857ba52dcf9e8eb7adcd9. Editable source: this SVG. Evidence: docs/architecture.md.</metadata>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="900" viewBox="0 0 960 900" role="img" aria-labelledby="title desc" lang="en">
+<title id="title">Resume Agent</title><desc id="desc">Separate session execution, domain tools, memory, and artifact access Modules: React workspace、HTTP API、Session runtime、Tool registry、Domain services、Planner、Memory manager、Storage</desc>
+<metadata>Editable static architecture. Source revision: 95923fab84ac4e575348e229c6858ec965c88d9b. Module responsibilities and interfaces: docs/architecture.md.</metadata>
 <defs>
-<marker id="gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="#64748b" stroke-width="1.8"/></marker>
-<marker id="blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="#2563eb" stroke-width="1.8"/></marker>
+<marker id="gray" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 1 1 L 7 4 L 1 7" fill="none" stroke="#8693a3" stroke-width="1"/></marker>
+<marker id="blue" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 1 1 L 7 4 L 1 7" fill="none" stroke="#526f96" stroke-width="1"/></marker>
 </defs>
-<rect width="960" height="1040" fill="#f8fafc"/>
+<rect width="960" height="900" fill="#ffffff"/>
 <g font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Microsoft YaHei, sans-serif">
-<text x="48" y="58" font-size="40" fill="#172033" text-anchor="start" font-weight="600">Resume Agent</text>
-<text x="48" y="102" font-size="24" fill="#475569" text-anchor="start" font-weight="400">Separate session execution, domain tools, memory, and artifact access</text>
-<path d="M 480 260 V 318" fill="none" stroke="#f8fafc" stroke-width="8" stroke-linejoin="round"/>
-<path d="M 480 260 V 318" fill="none" stroke="#64748b" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
-<path d="M 168 404 V 454" fill="none" stroke="#f8fafc" stroke-width="8" stroke-linejoin="round"/>
-<path d="M 168 404 V 454" fill="none" stroke="#64748b" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
-<path d="M 288 520 H 354" fill="none" stroke="#f8fafc" stroke-width="8" stroke-linejoin="round"/>
-<path d="M 288 520 H 354" fill="none" stroke="#64748b" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
-<path d="M 600 520 H 666" fill="none" stroke="#f8fafc" stroke-width="8" stroke-linejoin="round"/>
-<path d="M 600 520 H 666" fill="none" stroke="#64748b" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
-<path d="M 168 580 V 726" fill="none" stroke="#f8fafc" stroke-width="8" stroke-linejoin="round"/>
-<path d="M 168 580 V 726" fill="none" stroke="#64748b" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
-<path d="M 288 552 H 324 V 676 H 432 V 726" fill="none" stroke="#f8fafc" stroke-width="8" stroke-linejoin="round"/>
-<path d="M 288 552 H 324 V 676 H 432 V 726" fill="none" stroke="#64748b" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
-<path d="M 480 580 V 726" fill="none" stroke="#f8fafc" stroke-width="8" stroke-linejoin="round"/>
-<path d="M 480 580 V 726" fill="none" stroke="#64748b" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
-<path d="M 888 404 H 936 V 702 H 528 V 726" fill="none" stroke="#f8fafc" stroke-width="8" stroke-linejoin="round"/>
-<path d="M 888 404 H 936 V 702 H 528 V 726" fill="none" stroke="#64748b" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
-<path d="M 288 488 H 324 V 432 H 648 V 682 H 792 V 726" fill="none" stroke="#f8fafc" stroke-width="8" stroke-linejoin="round"/>
-<path d="M 288 488 H 324 V 432 H 648 V 682 H 792 V 726" fill="none" stroke="#2563eb" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#blue)"/>
-<path d="M 600 792 H 666" fill="none" stroke="#f8fafc" stroke-width="8" stroke-linejoin="round"/>
-<path d="M 600 792 H 666" fill="none" stroke="#64748b" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
-<path d="M 792 852 V 886 H 24 V 136 H 168 V 154" fill="none" stroke="#f8fafc" stroke-width="8" stroke-linejoin="round"/>
-<path d="M 792 852 V 886 H 24 V 136 H 168 V 154" fill="none" stroke="#2563eb" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="7 6" marker-end="url(#blue)"/>
-<g class="module" data-module="React workspace"><rect x="48" y="160" width="864" height="100" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
-<text x="480.0" y="195" font-size="28" fill="#172033" text-anchor="middle" font-weight="600">React workspace</text>
-<text x="480.0" y="230" font-size="20" fill="#334155" text-anchor="middle" font-weight="400">Chat · scores · memory · artifacts</text>
-</g>
-<g class="module" data-module="HTTP API"><rect x="48" y="324" width="864" height="80" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
-<text x="480.0" y="359" font-size="28" fill="#172033" text-anchor="middle" font-weight="600">HTTP API</text>
-<text x="480.0" y="394" font-size="20" fill="#334155" text-anchor="middle" font-weight="400">Session messages / profile data / artifact revisions and exports</text>
-</g>
-<g class="module" data-module="Session runtime"><rect x="48" y="460" width="240" height="120" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
-<text x="168.0" y="495" font-size="28" fill="#172033" text-anchor="middle" font-weight="600">Session runtime</text>
-<text x="168.0" y="530" font-size="20" fill="#334155" text-anchor="middle" font-weight="400">Execute plan · log results</text>
-<text x="168.0" y="558" font-size="16" fill="#526174" text-anchor="middle" font-weight="400">ResumeAgentRuntime</text>
-</g>
-<g class="module" data-module="Tool registry"><rect x="360" y="460" width="240" height="120" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
-<text x="480.0" y="495" font-size="28" fill="#172033" text-anchor="middle" font-weight="600">Tool registry</text>
-<text x="480.0" y="530" font-size="20" fill="#334155" text-anchor="middle" font-weight="400">Register · compose tools</text>
-<text x="480.0" y="558" font-size="16" fill="#526174" text-anchor="middle" font-weight="400">AgentToolRegistry</text>
-</g>
-<g class="module" data-module="Domain services"><rect x="672" y="460" width="240" height="120" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
-<text x="792.0" y="495" font-size="28" fill="#172033" text-anchor="middle" font-weight="600">Domain services</text>
-<text x="792.0" y="530" font-size="20" fill="#334155" text-anchor="middle" font-weight="400">Score · analyze · patch</text>
-<text x="792.0" y="558" font-size="16" fill="#526174" text-anchor="middle" font-weight="400">Scorer / Analyzer / Patcher</text>
-</g>
-<g class="module" data-module="Planner"><rect x="48" y="732" width="240" height="120" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
-<text x="168.0" y="767" font-size="28" fill="#172033" text-anchor="middle" font-weight="600">Planner</text>
-<text x="168.0" y="802" font-size="20" fill="#334155" text-anchor="middle" font-weight="400">Intent → tool plan</text>
-<text x="168.0" y="830" font-size="16" fill="#526174" text-anchor="middle" font-weight="400">AgentPlanner / rule routing</text>
-</g>
-<g class="module" data-module="Memory manager"><rect x="360" y="732" width="240" height="120" rx="10" fill="#eff6ff" stroke="#b7cdf8"/>
-<text x="480.0" y="767" font-size="28" fill="#172033" text-anchor="middle" font-weight="600">Memory manager</text>
-<text x="480.0" y="802" font-size="20" fill="#334155" text-anchor="middle" font-weight="400">Profile · tracks · versions</text>
-<text x="480.0" y="830" font-size="16" fill="#526174" text-anchor="middle" font-weight="400">MemoryManager</text>
-</g>
-<g class="module" data-module="Storage"><rect x="672" y="732" width="240" height="120" rx="10" fill="#eff6ff" stroke="#b7cdf8"/>
-<text x="792.0" y="767" font-size="28" fill="#172033" text-anchor="middle" font-weight="600">Storage</text>
-<text x="792.0" y="802" font-size="20" fill="#334155" text-anchor="middle" font-weight="400">Files · SQLite</text>
-<text x="792.0" y="830" font-size="16" fill="#526174" text-anchor="middle" font-weight="400">Snapshots / artifacts / traces</text>
-</g>
-<g class="edge-label">
-<text x="520" y="298" font-size="18" text-anchor="middle" fill="#475569" stroke="#f8fafc" stroke-width="7" stroke-linejoin="round" paint-order="stroke fill">HTTP</text></g>
-<g class="edge-label">
-<text x="235" y="438" font-size="18" text-anchor="middle" fill="#475569" stroke="#f8fafc" stroke-width="7" stroke-linejoin="round" paint-order="stroke fill">Messages</text></g>
-<g class="edge-label">
-<text x="324" y="504" font-size="16" text-anchor="middle" fill="#475569" stroke="#f8fafc" stroke-width="7" stroke-linejoin="round" paint-order="stroke fill">Plan</text></g>
-<g class="edge-label">
-<text x="636" y="504" font-size="16" text-anchor="middle" fill="#475569" stroke="#f8fafc" stroke-width="7" stroke-linejoin="round" paint-order="stroke fill">Call</text></g>
-<g class="edge-label">
-<text x="168" y="658" font-size="18" text-anchor="middle" fill="#475569" stroke="#f8fafc" stroke-width="7" stroke-linejoin="round" paint-order="stroke fill">Message / plan</text></g>
-<g class="edge-label">
-<text x="376" y="664" font-size="18" text-anchor="middle" fill="#475569" stroke="#f8fafc" stroke-width="7" stroke-linejoin="round" paint-order="stroke fill">Snapshot / memory</text></g>
-<g class="edge-label">
-<text x="480" y="630" font-size="18" text-anchor="middle" fill="#475569" stroke="#f8fafc" stroke-width="7" stroke-linejoin="round" paint-order="stroke fill">Context</text></g>
-<g class="edge-label">
-<text x="742" y="690" font-size="18" text-anchor="middle" fill="#475569" stroke="#f8fafc" stroke-width="7" stroke-linejoin="round" paint-order="stroke fill">Artifact edits / exports</text></g>
-<g class="edge-label">
-<text x="502" y="426" font-size="18" text-anchor="middle" fill="#2563eb" stroke="#f8fafc" stroke-width="7" stroke-linejoin="round" paint-order="stroke fill">Run traces</text></g>
-<g class="edge-label">
-<text x="636" y="776" font-size="16" text-anchor="middle" fill="#475569" stroke="#f8fafc" stroke-width="7" stroke-linejoin="round" paint-order="stroke fill">I/O</text></g>
-<g class="edge-label">
-<text x="480" y="875" font-size="18" text-anchor="middle" fill="#2563eb" stroke="#f8fafc" stroke-width="7" stroke-linejoin="round" paint-order="stroke fill">User reviews gaps / versions and adds context</text></g>
-<line x1="48" y1="958" x2="84" y2="958" stroke="#64748b" stroke-width="2.3"/>
-<text x="96" y="964" font-size="18" fill="#475569" text-anchor="start" font-weight="400">Calls / data</text>
-<line x1="333" y1="958" x2="369" y2="958" stroke="#2563eb" stroke-width="2.3"/>
-<text x="381" y="964" font-size="18" fill="#475569" text-anchor="start" font-weight="400">Evaluation / readback</text>
-<line x1="638" y1="958" x2="674" y2="958" stroke="#2563eb" stroke-width="2.3" stroke-dasharray="7 6"/>
-<text x="686" y="964" font-size="18" fill="#475569" text-anchor="start" font-weight="400">Human revision</text>
-<text x="48" y="992" font-size="18" fill="#475569" text-anchor="start" font-weight="400">The runtime logs traces; memory manages profile data and artifact versions.</text>
-<text x="48" y="1019" font-size="18" fill="#475569" text-anchor="start" font-weight="400">Edited artifacts are not automatically rescored; user feedback starts the next turn.</text>
-</g></svg>
+<text x="60" y="49" font-size="28" font-weight="500" letter-spacing=".3" fill="#263547">Resume Agent</text>
+<path d="M 480 162 L 480 246" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 480 162 L 480 246" fill="none" stroke="#8693a3" stroke-width="1.15" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
+<path d="M 168 316 L 168 402" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 168 316 L 168 402" fill="none" stroke="#8693a3" stroke-width="1.15" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
+<path d="M 276 440 L 366 440" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 276 440 L 366 440" fill="none" stroke="#8693a3" stroke-width="1.15" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
+<path d="M 588 440 L 678 440" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 588 440 L 678 440" fill="none" stroke="#8693a3" stroke-width="1.15" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
+<path d="M 168 472 L 168 674" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 168 472 L 168 674" fill="none" stroke="#8693a3" stroke-width="1.15" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
+<path d="M 276 464 L 317 464 Q 324 464 324 471 L 324 589 Q 324 596 331 596 L 425 596 Q 432 596 432 603 L 432 674" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 276 464 L 317 464 Q 324 464 324 471 L 324 589 Q 324 596 331 596 L 425 596 Q 432 596 432 603 L 432 674" fill="none" stroke="#8693a3" stroke-width="1.15" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
+<path d="M 480 472 L 480 674" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 480 472 L 480 674" fill="none" stroke="#8693a3" stroke-width="1.15" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
+<path d="M 888 316 L 929 316 Q 936 316 936 323 L 936 615 Q 936 622 929 622 L 535 622 Q 528 622 528 629 L 528 674" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 888 316 L 929 316 Q 936 316 936 323 L 936 615 Q 936 622 929 622 L 535 622 Q 528 622 528 629 L 528 674" fill="none" stroke="#8693a3" stroke-width="1.15" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
+<path d="M 276 416 L 317 416 Q 324 416 324 409 L 324 359 Q 324 352 331 352 L 641 352 Q 648 352 648 359 L 648 595 Q 648 602 655 602 L 785 602 Q 792 602 792 609 L 792 674" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 276 416 L 317 416 Q 324 416 324 409 L 324 359 Q 324 352 331 352 L 641 352 Q 648 352 648 359 L 648 595 Q 648 602 655 602 L 785 602 Q 792 602 792 609 L 792 674" fill="none" stroke="#8693a3" stroke-width="1.15" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gray)"/>
+<path d="M 588 712 L 678 712" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 588 712 L 678 712" fill="none" stroke="#8693a3" stroke-width="1.15" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#gray)" marker-start="url(#gray)"/>
+<path d="M 792 744 L 792 799 Q 792 806 785 806 L 31 806 Q 24 806 24 799 L 24 87 Q 24 80 31 80 L 162 80 Q 168 80 168 86 L 168 92" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 792 744 L 792 799 Q 792 806 785 806 L 31 806 Q 24 806 24 799 L 24 87 Q 24 80 31 80 L 162 80 Q 168 80 168 86 L 168 92" fill="none" stroke="#526f96" stroke-width="1.15" vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5" marker-end="url(#blue)"/>
+<g class="module" data-module="React workspace"><rect x="60" y="98" width="840" height="64" rx="4" fill="#ffffff" stroke="#b9c4d0" stroke-width=".9" vector-effect="non-scaling-stroke"/>
+<text x="480" y="130" text-anchor="middle" dominant-baseline="central" font-size="25" font-weight="400" fill="#263547">React workspace</text></g>
+<g class="module" data-module="HTTP API"><rect x="60" y="252" width="840" height="64" rx="4" fill="#ffffff" stroke="#b9c4d0" stroke-width=".9" vector-effect="non-scaling-stroke"/>
+<text x="480" y="284" text-anchor="middle" dominant-baseline="central" font-size="25" font-weight="400" fill="#263547">HTTP API</text></g>
+<g class="module" data-module="Session runtime"><rect x="60" y="408" width="216" height="64" rx="4" fill="#ffffff" stroke="#b9c4d0" stroke-width=".9" vector-effect="non-scaling-stroke"/>
+<text x="168" y="440" text-anchor="middle" dominant-baseline="central" font-size="25" font-weight="400" fill="#263547">Session runtime</text></g>
+<g class="module" data-module="Tool registry"><rect x="372" y="408" width="216" height="64" rx="4" fill="#ffffff" stroke="#b9c4d0" stroke-width=".9" vector-effect="non-scaling-stroke"/>
+<text x="480" y="440" text-anchor="middle" dominant-baseline="central" font-size="25" font-weight="400" fill="#263547">Tool registry</text></g>
+<g class="module" data-module="Domain services"><rect x="684" y="408" width="216" height="64" rx="4" fill="#ffffff" stroke="#b9c4d0" stroke-width=".9" vector-effect="non-scaling-stroke"/>
+<text x="792" y="440" text-anchor="middle" dominant-baseline="central" font-size="25" font-weight="400" fill="#263547">Domain services</text></g>
+<g class="module" data-module="Planner"><rect x="60" y="680" width="216" height="64" rx="4" fill="#ffffff" stroke="#b9c4d0" stroke-width=".9" vector-effect="non-scaling-stroke"/>
+<text x="168" y="712" text-anchor="middle" dominant-baseline="central" font-size="25" font-weight="400" fill="#263547">Planner</text></g>
+<g class="module" data-module="Memory manager"><rect x="372" y="680" width="216" height="64" rx="4" fill="#ffffff" stroke="#b9c4d0" stroke-width=".9" vector-effect="non-scaling-stroke"/>
+<text x="480" y="712" text-anchor="middle" dominant-baseline="central" font-size="25" font-weight="400" fill="#263547">Memory manager</text></g>
+<g class="module" data-module="Storage"><rect x="684" y="680" width="216" height="64" rx="4" fill="#ffffff" stroke="#b9c4d0" stroke-width=".9" vector-effect="non-scaling-stroke"/>
+<text x="792" y="712" text-anchor="middle" dominant-baseline="central" font-size="25" font-weight="400" fill="#263547">Storage</text></g>
+<g aria-label="Legend">
+<line x1="330" y1="852" x2="360" y2="852" stroke="#8693a3" stroke-width="1.1" vector-effect="non-scaling-stroke"/>
+<text x="372" y="852" dominant-baseline="central" font-size="17" fill="#798595">Collaboration</text>
+<line x1="540" y1="852" x2="570" y2="852" stroke="#526f96" stroke-width="1.1" vector-effect="non-scaling-stroke" stroke-dasharray="5 5"/>
+<text x="582" y="852" dominant-baseline="central" font-size="17" fill="#798595">Human iteration</text>
+</g></g></svg>
