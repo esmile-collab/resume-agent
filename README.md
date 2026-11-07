@@ -25,6 +25,13 @@
 
 Upload your base resume and target JDs. The system analyzes gaps, scores fit, generates tailored versions, polishes expression, and exports — all within a single workspace backed by structured memory and full audit trails.
 
+## Architecture
+
+![System architecture: execution, evaluation, recorded findings, and revision loops](docs/architecture.en.svg)
+
+[Diagram sources, implementation boundaries, and maintenance](docs/architecture.md) (Chinese)
+
+
 ## Who It's For
 
 - Job seekers applying to multiple roles who want a repeatable, inspectable process instead of one-shot chat answers.
@@ -39,35 +46,6 @@ Upload your base resume and target JDs. The system analyzes gaps, scores fit, ge
 - **Multi-Format Export** — Export resumes as PDF or DOCX with versioned artifacts.
 - **Structured Memory** — Career profile, experience entries, and job tracks are stored as queryable structured data, not raw conversation history.
 - **Full Traceability** — Every agent action is logged as an observable trace with snapshot diffs and artifact versioning.
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Frontend (React)                      │
-│   ChatPanel · ScorePanel · MemoryPanel · ArtifactPanel  │
-└─────────────────────────┬───────────────────────────────┘
-                          │ REST API
-┌─────────────────────────▼───────────────────────────────┐
-│                  API Layer (FastAPI)                      │
-│              Sessions · Messages · Artifacts              │
-└─────────────────────────┬───────────────────────────────┘
-                          │
-┌─────────────────────────▼───────────────────────────────┐
-│                   Agent Runtime                           │
-│   Planner → Memory → Tool Registry → Runtime Pipeline    │
-└──┬──────────┬──────────┬──────────┬──────────┬──────────┘
-   │          │          │          │          │
-┌──▼──┐  ┌───▼───┐ ┌────▼───┐ ┌───▼───┐ ┌───▼────┐
-│Scoring│  │ JD    │ │Resume  │ │Polish │ │Export  │
-│Engine │  │Analyzer│ │Parser  │ │Patcher│ │Service │
-└──┬───┘  └───┬───┘ └────┬───┘ └───┬───┘ └───┬────┘
-   │          │          │          │          │
-┌──▼──────────▼──────────▼──────────▼──────────▼────────┐
-│               Persistence (SQLite)                      │
-│         Sessions · Artifacts · Snapshots                │
-└────────────────────────────────────────────────────────┘
-```
 
 ## Quick Start
 
